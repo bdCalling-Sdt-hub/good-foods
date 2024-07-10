@@ -168,7 +168,7 @@ const MealClient = () => {
                     </div>
                     <Checkbox className="text-[#818181] text-[12px] leading-[24px] font-medium">I agree to <span className='text-[#F52B2E]'>Terms & Conditions, Privacy & Policy and Refund Policy</span></Checkbox>
                         
-  
+                    <button onClick={()=>setOpen(false)} className='bg-primary text-white rounded-lg h-[48px] w-full font-normal text-[16px] leading-5'>Confirm Payment</button>
                 </div>
 
             </div>
