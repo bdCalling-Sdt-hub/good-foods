@@ -35,46 +35,48 @@ const Navbar = () => {
         },
     ]
     return (
-        <div className='container flex items-center justify-between border h-20'>
-            <div>
-                <Image alt='Logo' src={Logo} width={70} height={70} />
-            </div>
-            <div className="hidden  lg:flex items-center">
-                {
-                    item.map((menu, index) => {
-                        return(
-                            <Link 
-                                key={index} 
-                                className={`
-                                    h-[21px]
-                                    font-normal text-[16px] leading-6 
-                                    text-[#555656] 
-                                    border-[#D9D9D9] 
-                                    ${index === 0 ? "pr-[19px]" : "px-[19px]"}
-                                    ${index === item.length - 1 ? "border-none" : "border-r-[1px] "}
-                                `} 
-                                href={`${menu.path}`}
-                            >
-                                {menu.label}
-                            </Link>
-                        )
-                    })
-                }
-            </div>
-            <div className='flex items-center gap-6'>
-                <Link 
-                    href={"/login"}
-                    className='font-normal w-[104px] h-10 rounded-lg border border-primary text-primary flex items-center justify-center text-[16px] leading-6'
-                >
-                    Log in
-                </Link>
+        <div className='fixed top-0 w-full left-0 bg-white'>
+            <div className='container   flex items-center justify-between border h-20'>
+                <div>
+                    <Image alt='Logo' src={Logo} width={70} height={70} />
+                </div>
+                <div className="hidden  lg:flex items-center">
+                    {
+                        item.map((menu, index) => {
+                            return(
+                                <Link 
+                                    key={index} 
+                                    className={`
+                                        h-[21px]
+                                        font-normal text-[16px] leading-6 
+                                        text-[#555656] 
+                                        border-[#D9D9D9] 
+                                        ${index === 0 ? "pr-[19px]" : "px-[19px]"}
+                                        ${index === item.length - 1 ? "border-none" : "border-r-[1px] "}
+                                    `} 
+                                    href={`${menu.path}`}
+                                >
+                                    {menu.label}
+                                </Link>
+                            )
+                        })
+                    }
+                </div>
+                <div className='flex items-center gap-6'>
+                    <Link 
+                        href={"/login"}
+                        className='font-normal w-[104px] h-10 rounded-lg border border-primary text-primary flex items-center justify-center text-[16px] leading-6'
+                    >
+                        Log in
+                    </Link>
 
-                <Link 
-                    href={"/register"} 
-                    className='font-normal w-[104px] h-10 rounded-lg bg-primary text-white flex items-center justify-center text-[16px] leading-6'
-                >
-                    Sign up
-                </Link>
+                    <Link 
+                        href={"/register"} 
+                        className='font-normal w-[104px] h-10 rounded-lg bg-primary text-white flex items-center justify-center text-[16px] leading-6'
+                    >
+                        Sign up
+                    </Link>
+                </div>
             </div>
         </div>
     )
