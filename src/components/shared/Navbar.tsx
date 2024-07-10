@@ -11,7 +11,7 @@ const Navbar = () => {
         },
         {
             label: "Our Menus",
-            path: "/menu"
+            path: "/menus"
         },
         {
             label: "Meal Plan",
