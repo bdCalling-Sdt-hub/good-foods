@@ -1,9 +1,11 @@
+import React from "react";
+import HomeClient from "./home/HomeClient";
 
 
 export default function Home() {
   return (
-    <>
-      <h1>Welcome to the Good Foods</h1>
-    </>
+    <React.Fragment>
+      <HomeClient/>
+    </React.Fragment>
   );
 }
