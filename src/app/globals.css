@@ -7,3 +7,20 @@
 *{
     font-family: "Poppins", sans-serif;
 }
+
+.poppins{
+    font-family: "Poppins", sans-serif;
+}
+
+body, html {
+    width: 100%;
+}
+
+.ant-otp-input{
+    height: 50px !important;
+    width: 50px !important;
+}
+
+.otp .ant-input-outlined{
+    border-color: #818181 !important;
+}
