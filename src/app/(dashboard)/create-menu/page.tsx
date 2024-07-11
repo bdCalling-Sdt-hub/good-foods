@@ -1,10 +1,10 @@
 import React from 'react'
-import TestimonialClient from './TestimonialClient'
+import CreateMenuClient from './CreateMenuClient'
 
 const page = () => {
     return (
         <React.Fragment>
-            <TestimonialClient/>
+            <CreateMenuClient/>
         </React.Fragment>
     )
 }
