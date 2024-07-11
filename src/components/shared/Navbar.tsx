@@ -27,7 +27,7 @@ const Navbar = () => {
         },
         {
             label: "Testimonials",
-            path: "/testimonial"
+            path: "/testimonials"
         },
         {
             label: "FAQ",

@@ -34,7 +34,7 @@ const WorkflowClient = () => {
     }, [openIndex]);
 
     return (
-        <div className='container mt-[120px] '>
+        <div className='container mt-[120px]'>
 
             {/* work flow heading */}
             <div className='grid grid-cols-12 gap-20'>

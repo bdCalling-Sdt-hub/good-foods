@@ -25,7 +25,7 @@ const FaqClient = () => {
     }, [openIndex]);
 
     return (
-        <div className='container mt-20 grid grid-cols-1 gap-6'>
+        <div className='container mt-[120px] grid grid-cols-1 gap-6'>
             <Heading name='Popular Frequently Asked Questions' style='font-bold text-[40px] leading-[46px] text-[#333333] text-center mb-4' />
             <p className="text-[#656565] text-[14px] leading-[18px] text-center font-normal">
                 <span className="text-primary">Simply Good Food </span> 
