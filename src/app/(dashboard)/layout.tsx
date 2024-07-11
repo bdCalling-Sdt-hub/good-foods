@@ -12,9 +12,9 @@ const DashboardLayout = ({children}: {children: React.ReactNode}) => {
         <div>
             <div className='bg-white border-b-[1px] border-[#656565] border-opacity-[20%]'>
                 <div className='container flex items-center justify-between h-16 py-1'>
-                    <div>
+                    <Link href={"/"}>
                         <Image alt='Logo' src={Logo} width={40} height={40} />
-                    </div>
+                    </Link>
                     <div className='w-9 h-9 bg-[#F1F1F1] rounded-full flex items-center justify-center'>
                         <FaRegUser size={20} color='#277E16' />
                     </div>

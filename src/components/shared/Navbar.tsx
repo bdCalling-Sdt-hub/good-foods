@@ -35,11 +35,11 @@ const Navbar = () => {
         },
     ]
     return (
-        <div className='fixed top-0 w-full left-0 bg-white'>
-            <div className='container   flex items-center justify-between border h-20'>
-                <div>
+        <div className='fixed z-10 top-0 w-full left-0 bg-white'>
+            <div className='container   flex items-center justify-between h-20'>
+                <Link href={"/"}>
                     <Image alt='Logo' src={Logo} width={70} height={70} />
-                </div>
+                </Link>
                 <div className="hidden  lg:flex items-center">
                     {
                         item.map((menu, index) => {
