@@ -4,8 +4,6 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Logo from "@/assets/logo.png";
 import { CiEdit } from 'react-icons/ci';
-import { Button, Form, Input } from 'antd';
-import { useForm } from 'antd/es/form/Form';
 import EditProfile from '@/components/Profile/EditProfile';
 import OrderHistory from '@/components/Profile/OrderHistory';
 import ChangePassword from '@/components/Profile/ChangePassword';

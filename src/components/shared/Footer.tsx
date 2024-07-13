@@ -43,13 +43,14 @@ const Footer = () => {
     ]
     return (
         <div className='bg-[#F9F9F9] mt-16'>
-            <div className='container grid grid-cols-12 py-[30px]'>
-                <div className='col-span-3'>
+            <div className='container grid grid-cols-12 py-[30px] gap-8 md:gap-0'>
+                <div className='col-span-12 sm:col-span-6  md:col-span-4 lg:col-span-3'>
                     <Link href={"/"}>
                         <Image alt='Logo' src={Logo} width={150} height={150} />
                     </Link>
                 </div>
-                <div className='col-span-3 flex flex-col gap-4'>
+
+                <div className='col-span-12 sm:col-span-6  md:col-span-4 lg:col-span-3 flex flex-col gap-4'>
                     {
                         item.map((menu, index) => {
                             return(
@@ -69,7 +70,8 @@ const Footer = () => {
                         })
                     }
                 </div>
-                <div className='col-span-3 flex flex-col gap-4'>
+
+                <div className='col-span-12 sm:col-span-6  md:col-span-4 lg:col-span-3 flex flex-col gap-4'>
                     {
                         items.map((menu, index) => {
                             return(
@@ -89,9 +91,10 @@ const Footer = () => {
                         })
                     }
                 </div>
-                <div className='col-span-3'>
+
+                <div className='col-span-12 sm:col-span-6  md:col-span-4 lg:col-span-3'>
                     <Heading name='Subscribe To Our Email Alerts' style='font-semibold text-[16px] leading-[20px] text-[#575757] mb-2' />
-                    <div className='flex items-center gap-4'>
+                    <div className='w-full flex md:items-center flex-col md:flex-row gap-4'>
                         <Input
                             placeholder='Enter Your Email'
                             style={{
