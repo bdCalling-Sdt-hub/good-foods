@@ -1,7 +1,7 @@
 "use client"
 import Heading from '@/components/shared/Heading'
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa';
 import Product from "@/assets/foods.png"
 import Modal from '@/components/shared/Modal';
@@ -9,9 +9,16 @@ import { Checkbox, DatePicker, Form, Input } from 'antd';
 
 const MealClient = () => {
     const [open, setOpen] = useState(false)
-    const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "Small Meal");
+    const [tab, setTab] = useState("Small Meal");
     const [count, setCount] = useState(1);
-    const [tabItem, setTabItem] = useState(new URLSearchParams(window.location.search).get('index') || 0)
+    const [tabItem, setTabItem] = useState<number | null>(0)
+
+    useEffect(() => {
+        const initialTab = new URLSearchParams(window.location.search).get('tab') || "Small Meal";
+        const initialTab2 = new URLSearchParams(window.location.search).get('index') || 0;
+        setTabItem(Number(initialTab2))
+        setTab(initialTab);
+    }, []);
 
     const handleTab = (tab: string, index:any) => {
         setTab(tab);

@@ -1,9 +1,16 @@
+"use client";
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react';
+import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import Logo from "@/assets/logo.png";
+import { AiOutlineUser } from "react-icons/ai";
 
 const Navbar = () => {
+    const [open, setOpen] = useState(false);
+    const [toggling, setToggling] = useState(false);
+
+    
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const item = [
         {
             label: "Home",
@@ -34,12 +41,30 @@ const Navbar = () => {
             path: "/faq"
         },
     ]
+
+    
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                if (!toggling) {
+                    setOpen(false);
+                }
+                setToggling(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [toggling]);
+    
     return (
-        <div className='fixed z-10 top-0 w-full left-0 bg-white'>
-            <div className='container   flex items-center justify-between h-20'>
+        <div className='fixed z-10 top-0 w-full left-0 bg-white border-b-[1px] border-[#00000] border-opacity-[40%]'>
+            <div className='container relative  flex items-center justify-between h-20'>
                 <Link href={"/"}>
                     <Image alt='Logo' src={Logo} width={70} height={70} />
                 </Link>
+
                 <div className="hidden  lg:flex items-center">
                     {
                         item.map((menu, index) => {
@@ -62,6 +87,7 @@ const Navbar = () => {
                         })
                     }
                 </div>
+
                 <div className='flex items-center gap-6'>
                     <Link 
                         href={"/login"}
@@ -76,6 +102,43 @@ const Navbar = () => {
                     >
                         Sign up
                     </Link>
+
+                    {/* user menu */}
+                    <div 
+                        onClick={(e) => { 
+                            e.stopPropagation(); 
+                            setToggling(true);
+                            setOpen(prev => !prev); 
+                        }} 
+                        className='w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full flex items-center justify-center'
+                    >
+                        <AiOutlineUser size={24} color='#277E16'/>
+                    </div>
+
+                    {
+                        open &&
+                    
+                        <div 
+                            // onClick={(e) => e.stopPropagation()}
+                            ref={dropdownRef}
+                            style={{
+                                boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+                            }}
+                            className='absolute bg-white top-16 right-0 rounded w-[150px]'
+                        >
+                            <ul className='grid grid-cols-1 gap-1'>
+                                <li className='text-[#656565]  cursor-pointer transition-all duration-100 text-[14px] rounded-t-sm text-center  hover:bg-primary hover:text-white leading-6 font-normal py-2'>FeedBack</li>
+                                <Link href={"/profile"} >
+                                    <li onClick={()=>setOpen(false)} className='text-[#656565] transition-all duration-100 text-center hover:bg-primary hover:text-white text-[14px] leading-6 font-normal py-2'>Profile</li>
+                                </Link>
+                                <Link  href={"/transactions"}>
+                                    <li onClick={()=>setOpen(false)} className='text-[#656565] transition-all duration-100 text-center hover:bg-primary hover:text-white text-[14px] leading-6 font-normal py-2'>Dashboard</li>
+                                </Link>
+                                <li onClick={()=>setOpen(false)} className='text-[#656565] cursor-pointer transition-all duration-100 text-center rounded-b-sm hover:bg-primary hover:text-white  text-[14px] leading-6 font-normal py-2'>Log Out</li>
+                            </ul>
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>

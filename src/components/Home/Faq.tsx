@@ -5,7 +5,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 type ContentRef = HTMLDivElement | null;
 
 
-const FaqClient = () => {
+const Faq = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const contentRefs = useRef<ContentRef[]>([]);
 
@@ -25,7 +25,7 @@ const FaqClient = () => {
     }, [openIndex]);
 
     return (
-        <div className='container mt-[120px] grid grid-cols-1 gap-6'>
+        <div className='container mt-[120px] grid grid-cols-1 gap-6 mb-16'>
             <Heading name='Popular Frequently Asked Questions' style='font-bold text-[40px] leading-[46px] text-[#333333] text-center mb-4' />
             <p className="text-[#656565] text-[14px] leading-[18px] text-center font-normal">
                 <span className="text-primary">Simply Good Food </span> 
@@ -39,7 +39,7 @@ const FaqClient = () => {
                 {
                     [...Array(5)].map((_item: any, index) => {
                         return (
-                            <div onClick={() => toggleAccordion(index)} key={index}
+                            <div onClick={() => toggleAccordion(index)} key={_item?._id}
                                 ref={(el) => {
                                     if (el) {
                                     contentRefs.current[index] = el;
@@ -72,4 +72,4 @@ const FaqClient = () => {
     )
 }
 
-export default FaqClient
+export default Faq;

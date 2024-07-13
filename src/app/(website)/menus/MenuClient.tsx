@@ -1,13 +1,18 @@
 "use client";
-import React, { useState } from 'react';
-import Product from "@/assets/foods.png"
+import React, { useEffect, useState } from 'react';
+import Product from "@/assets/foods.png";
 import Image from 'next/image';
 import { FaStar } from "react-icons/fa";
 import type { PaginationProps } from 'antd';
 import { Pagination } from 'antd';
 
 const MenuClient = () => {
-    const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "Full Menus");
+    const [tab, setTab] = useState("Full Menus");
+
+    useEffect(() => {
+        const initialTab = new URLSearchParams(window.location.search).get('tab') || "Full Menus";
+        setTab(initialTab);
+    }, []);
 
 
     const handleTab = (tab: string) => {
@@ -61,10 +66,7 @@ const MenuClient = () => {
                                 <Image
                                     alt='Product'
                                     src={Product}
-                                    layout='responsive'
-                                    width={100}
-                                    height={200}
-                                    objectFit='cover'
+                                    style={{objectFit: "contain"}}
                                 />
 
                                 {/* meal description */}

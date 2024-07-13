@@ -43,8 +43,8 @@ const CateringClient = () => {
                         <Image
                             alt="Catering"
                             src={Catering}
-                            layout="fill"
-                            objectFit="container"
+                            fill
+                            style={{ objectFit: 'contain' }}
                         />
                     </div>
                 </div>
@@ -113,8 +113,7 @@ const CateringClient = () => {
                     <Image
                         alt="Catering"
                         src={banner}
-                        layout="fill"
-                        objectFit="container"
+                        fill
                     />
                 </div>
                 <div className='relative col-span-6 bg-[#F4F4F4] py-6'>

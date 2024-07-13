@@ -42,7 +42,7 @@ const Footer = () => {
         },
     ]
     return (
-        <div className='bg-[#F9F9F9]'>
+        <div className='bg-[#F9F9F9] mt-16'>
             <div className='container grid grid-cols-12 py-[30px]'>
                 <div className='col-span-3'>
                     <Link href={"/"}>
@@ -93,7 +93,7 @@ const Footer = () => {
                     <Heading name='Subscribe To Our Email Alerts' style='font-semibold text-[16px] leading-[20px] text-[#575757] mb-2' />
                     <div className='flex items-center gap-4'>
                         <Input
-                            placeholder='Search By Date'
+                            placeholder='Enter Your Email'
                             style={{
                                 width: "100%",
                                 height: 40,
@@ -103,11 +103,13 @@ const Footer = () => {
                                 color: "#5C5C5C",
                                 background:"#FFFFFF"
                             }}
+                            value={keyword}
                             onChange={(e)=>setKeyword(e.target.value)}
                             className='placeholder:text-[#5C5C5C]'
                         />
 
                         <Button 
+                            onClick={()=>setKeyword("")}
                             htmlType='submit'
                             style={{
                                 background: "#277E16",

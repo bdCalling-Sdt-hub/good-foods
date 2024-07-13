@@ -11,6 +11,7 @@ import cancel from "@/assets/cancel.png";
 import pause from "@/assets/pause.png";
 import play from "@/assets/play.png";
 import Image from 'next/image';
+import SimpleFood from '@/components/SimpleFood';
 type ContentRef = HTMLDivElement | null;
 
 
@@ -44,7 +45,7 @@ const WorkflowClient = () => {
                         {
                             [...Array(5)].map((_item: any, index) => {
                                 return (
-                                    <div onClick={() => toggleAccordion(index)} key={_item?._id}
+                                    <div onClick={() => toggleAccordion(index)} key={index}
                                         ref={(el) => {
                                             if (el) {
                                             contentRefs.current[index] = el;
@@ -77,8 +78,7 @@ const WorkflowClient = () => {
                     <Image
                         alt="Catering"
                         src={work}
-                        layout="fill"
-                        objectFit="container"
+                        fill
                     />
                 </div>
             </div>
@@ -94,8 +94,8 @@ const WorkflowClient = () => {
                             src={weekly}
                             alt='icon'
                             width={64}
-                            height={64}
-                            objectFit='cover'
+                            height={40}
+                            style={{ objectFit: 'fill' }}
                         />
                         <div>
                             <Heading name='Weekly Delivery' style='font-semibold text-[16px] leading-[21px] text-[#000000] mb-2' />
@@ -110,8 +110,8 @@ const WorkflowClient = () => {
                             src={cancel}
                             alt='icon'
                             width={64}
-                            height={64}
-                            objectFit='cover'
+                            height={40}
+                            style={{ objectFit: 'fill' }}
                         />
                         <div>
                             <Heading name='Cancel Anytime' style='font-semibold text-[16px] leading-[21px] text-[#000000] mb-2' />
@@ -126,8 +126,8 @@ const WorkflowClient = () => {
                             src={pause}
                             alt='icon'
                             width={64}
-                            height={64}
-                            objectFit='cover'
+                            height={40}
+                            style={{ objectFit: 'fill' }}
                         />
                         <div>
                             <Heading name='Pause Anytime' style='font-semibold text-[16px] leading-[21px] text-[#000000] mb-2' />
@@ -142,8 +142,8 @@ const WorkflowClient = () => {
                             src={play}
                             alt='icon'
                             width={64}
-                            height={64}
-                            objectFit='cover'
+                            height={40}
+                            style={{ objectFit: 'fill' }}
                         />
                         <div>
                             <Heading name='Pause Anytime' style='font-semibold text-[16px] leading-[21px] text-[#000000] mb-2' />
@@ -157,50 +157,7 @@ const WorkflowClient = () => {
 
             {/* aminities */}
             <div>
-                <Heading name='Why Simply Good Food ' style='font-bold text-[40px] leading-[46px] text-[#333333] text-center mb-10' />
-                <div className='grid grid-cols-3 gap-10'>
-                    <div>
-                        <Image
-                            src={health}
-                            alt='icon'
-                            width={80}
-                            height={80}
-                            className='mx-auto'
-                        />
-                        <Heading name='Health awareness' style='font-medium text-center text-[24px] leading-[28px] text-[#3E3E3E] my-4' />
-                        <p className='font-normal text-[14px] leading-[20px] text-[#656565] text-center'>
-                            Subscribe for free shipping. Just pick your meals, tell us how often you want them,and then we&apos;ll take care of the rest.
-                        </p>
-                    </div>
-
-                    <div>
-                        <Image
-                            src={protein}
-                            alt='icon'
-                            width={80}
-                            height={80}
-                            className='mx-auto'
-                        />
-                        <Heading name='More Protein' style='font-medium text-center text-[24px] leading-[28px] text-[#3E3E3E] my-4' />
-                        <p className='font-normal text-[14px] leading-[20px] text-[#656565] text-center'>
-                            Protein-rich meals to FUEL your workouts, improve recuperation, and increase outcomes.
-                        </p>
-                    </div>
-
-                    <div>
-                        <Image
-                            src={variety}
-                            alt='icon'
-                            width={80}
-                            height={80}
-                            className='mx-auto'
-                        />
-                        <Heading name='Unending Variety' style='font-medium text-center text-[24px] leading-[28px] text-[#3E3E3E] my-4' />
-                        <p className='font-normal text-[14px] leading-[20px] text-[#656565] text-center'>
-                            Select breakfasts, snacks, and bulk proteins/sides. You can change it up at any moment or stick with the same routine.
-                        </p>
-                    </div>
-                </div>
+                <SimpleFood/>
             </div>
         </div>
     )
