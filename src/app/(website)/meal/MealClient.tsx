@@ -184,12 +184,12 @@ const MealClient = () => {
 
     return (
         <div className='container pt-[100px] h-full bg-[#F7F7F7] pb-20'>
-            <Heading name='Select your meal plans ' style='font-bold text-[40px] leading-[46px] text-[#333333] mb-6' />
+            <Heading name='Select your meal plans ' style='font-bold text-[32px]  md:text-[40px] leading-[38px] md:leading-[46px] text-[#333333] mb-6' />
 
             <div className='grid grid-cols-12 gap-6'>
 
                 {/* meal plans  */}
-                <div className='bg-white col-span-4 h-fit p-6 rounded-lg'>
+                <div className='bg-white col-span-12 lg:col-span-4 h-fit p-6 rounded-lg'>
                     <div className='grid grid-cols-1 gap-6'>
                         {
                             ["Small Meal", "Small Paleo Meal", "Medium Meal", "Medium Paleo Meal", "Large Meal", "Large Paleo Meal"]?.map((item, index)=>{
@@ -226,7 +226,7 @@ const MealClient = () => {
                 </div>
 
                 {/* meal details */}
-                <div className='bg-white col-span-8 h-fit p-6 rounded-lg'>
+                <div className='bg-white col-span-12 lg:col-span-8 h-fit p-6 rounded-lg'>
                     <div className='rounded-lg p-2 bg-[#F4F4F4] px-[34px] py-[14px] flex items-center justify-between'>
                         <p className='text-[16px] leading-5 text-[#F52B2E] font-medium'>Subtotal :</p>
                         <p className='text-[16px] leading-5 text-[#F52B2E] font-bold'>$150.00</p>
@@ -241,16 +241,16 @@ const MealClient = () => {
                         {
                             [...Array(6)].map((item, index)=>{
                                 return(
-                                    <div key={index} className='bg-[#F7F7F7] w-full h-[75px] p-2 rounded-lg'>
-                                        <div className='flex items-center gap-4'>
+                                    <div key={index} className='bg-[#F7F7F7] w-full h-full sm:h-[75px] p-2 rounded-lg'>
+                                        <div className='flex flex-col sm:flex-row items-center gap-4'>
                                             <Image
                                                 alt='Product'
                                                 src={Product}
                                                 width={90}
                                                 height={60}
                                             />
-                                            <div className='grid-cols-1 grid gap-4'>
-                                                <div className='flex items-center gap-4'>
+                                            <div className='grid-cols-1 grid gap-0 sm:gap-4'>
+                                                <div className='flex  items-center sm:gap-4'>
                                                     <p className='font-bold text-[18px] leading-7 text-[#5C5C5C]'>Heathy Food Name</p>
                                                     <div className='flex items-center gap-3'>
                                                         <FaStar className='' color='#FDB64E' size={14} /> <span className='text-[#FDB64E] text-[14px] leading-[18px] font-medium'>4.5/5</span>

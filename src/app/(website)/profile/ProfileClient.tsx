@@ -72,7 +72,7 @@ const ProfileClient = () => {
 
 
             {/* tab title and tab change controller */}
-            <ul className='flex items-center justify-center gap-6 my-6'>
+            <ul className='flex flex-col md:flex-row items-center justify-center gap-6 my-6'>
                 {
                     ["Edit Profile", "Order History", "Change Password"].map((item ,index)=>{
                         return(
@@ -91,7 +91,7 @@ const ProfileClient = () => {
                 }
             </ul>
 
-            <div className='bg-[#F9F9F9] rounded py-6 px-6 md:px-0'>
+            <div className='bg-[#F9F9F9]  rounded py-6 px-6 md:px-0'>
                 {/* Title Of the Tab name */}
                 <Heading 
                     name={tab}

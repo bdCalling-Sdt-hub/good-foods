@@ -8,11 +8,13 @@ import { MdOutlineArrowOutward } from "react-icons/md";
 const FoodBanner = () => {
     return (
         <div>
-            <div className='grid grid-cols-12 h-[429px] pb-10'>
-                <div className=' col-span-6 bg-[#C4C4C4] pr-6 flex items-center justify-start'>
-                    <div className='p-6 h-[250px] w-[550px] rounded-r-[100px] bg-[#FDFDFD]'>
-                        <Heading name='Make daily meals ' style='font-bold text-[32px] leading-[48px] text-[#000000]' />
-                        <Heading name='healthy and moderate' style='font-bold text-[32px] leading-[38px] text-[#000000]' />
+            <div className='grid grid-cols-12 h-full md:h-[429px] gap-4 md:gap-0 pb-10'>
+
+                <div className='col-span-12 md:col-span-6 order-2 lg:order-1 bg-[#C4C4C4] pr-0 md:pr-6 flex items-center justify-start'>
+
+                    <div className='p-6 h-[250px] w-full md:w-[550px] rounded-none md:rounded-r-[100px] bg-[#FDFDFD]'>
+                        <Heading name='Make daily meals ' style='font-bold text-[26px] sm:text-[32px] leading-[48px] text-[#000000]' />
+                        <Heading name='healthy and moderate' style='font-bold text-[26px] sm:text-[32px] leading-[38px] text-[#000000]' />
                             
                         <p className="my-4 text-[#103509] font-normal text-[16px] leading-6">Ingredients are naturally rich and full of taste.</p>
                         <Link href={"/meal"} >
@@ -24,7 +26,7 @@ const FoodBanner = () => {
                     </div>
                 </div>
 
-                <div className="col-span-6 relative">
+                <div className="col-span-12 md:col-span-6 w-full relative order-1 lg:order-2">
                     <Image
                         alt="Catering"
                         src={banner}

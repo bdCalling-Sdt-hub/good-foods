@@ -170,7 +170,7 @@ const HomeClient = () => {
     )
     return (
 
-        <div className='container mt-[80px] relative'>
+        <div className='container mt-[100px] md:mt-[80px] relative'>
             <Banner/>
             <SimpleFood/>
             <NewProduct/>

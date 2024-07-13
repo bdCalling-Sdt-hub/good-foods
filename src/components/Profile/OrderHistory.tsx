@@ -77,9 +77,9 @@ const OrderHistory = () => {
         </div>
     )
     return (
-        <div>
+        <div className='overflow-y-hidden'>
 
-            <table className="w-full rounded-[5px] rounded-table">
+            <table className="w-[1400px] overflow-auto rounded-[5px] rounded-table">
                 {/* table heading */}
                 <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                     {

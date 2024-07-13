@@ -9,7 +9,7 @@ const SimpleFood = () => {
     return (
         <div className='container mt-16'>
             <Heading name='Why Simply Good Food ' style='font-bold text-[40px] leading-[46px] text-[#333333] text-center mb-10' />
-            <div className='grid grid-cols-3 gap-10'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10'>
                 <div>
                     <Image
                         src={health}

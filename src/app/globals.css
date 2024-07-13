@@ -36,11 +36,28 @@ body, html {
 .ant-pagination .ant-pagination-item-active a {
     color: #ffffff !important;
 }
-
+/* .banner-foods{
+    background-image: ;
+} */
 .banner-foods .slick-list{
     border-radius: 100% !important;
     width: 400px !important;
     height: 400px !important;
+}
+
+
+@media screen and (max-width: 639px) {
+    .banner-foods .slick-list{
+        width: 300px !important;
+        height: 280px !important;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .banner-foods .slick-list{
+        width: 260px !important;
+        height: 250px !important;
+    }
 }
 
 .slick-slider .slick-slide {

@@ -4,10 +4,15 @@ import Link from 'next/link'
 import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import Logo from "@/assets/logo.png";
 import { AiOutlineUser } from "react-icons/ai";
+import { Menu } from 'lucide-react';
+import { Drawer } from 'antd';
+import { X } from 'lucide-react';
+
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const [toggling, setToggling] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false)
 
     
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -91,17 +96,19 @@ const Navbar = () => {
                 <div className='flex items-center gap-6'>
                     <Link 
                         href={"/login"}
-                        className='font-normal w-[104px] h-10 rounded-lg border border-primary text-primary flex items-center justify-center text-[16px] leading-6'
+                        className=' font-normal w-[104px] h-10 rounded-lg border border-primary text-primary hidden  lg:flex items-center justify-center text-[16px] leading-6'
                     >
                         Log in
                     </Link>
 
                     <Link 
                         href={"/register"} 
-                        className='font-normal w-[104px] h-10 rounded-lg bg-primary text-white flex items-center justify-center text-[16px] leading-6'
+                        className='font-normal w-[104px] h-10 rounded-lg bg-primary text-white hidden  lg:flex items-center justify-center text-[16px] leading-6'
                     >
                         Sign up
                     </Link>
+
+                    <Menu onClick={()=>setOpenDrawer(true)} className='block cursor-pointer lg:hidden' size={40} color='#277e16' />
 
                     {/* user menu */}
                     <div 
@@ -141,6 +148,45 @@ const Navbar = () => {
 
                 </div>
             </div>
+            
+
+            <Drawer
+                title={<div className='flex items-center justify-between'>
+                    <Link href={"/"}>
+                        <Image alt='Logo' src={Logo} width={40} height={40} />
+                    </Link>
+                    <X onClick={()=>setOpenDrawer(false)} color='black' className='cursor-pointer' size={30} />
+                </div>}
+                placement={"left"}
+                closable={false}
+                onClose={()=>setOpenDrawer(false)}
+                open={openDrawer}
+                key={"left"}
+                
+            >
+                <div className="flex items-start justify-center flex-col gap-6">
+                    {
+                        item.map((menu, index) => {
+                            return(
+                                <Link 
+                                    key={index} 
+                                    className={`
+                                        h-[21px]
+                                        font-normal text-[16px] leading-6 
+                                        text-[#555656] 
+                                        border-[#D9D9D9]
+                                        hover:text-primary
+                                    `} 
+                                    href={`${menu.path}`}
+                                >
+                                    {menu.label}
+                                </Link>
+                            )
+                        })
+                    }
+                </div>
+            </Drawer>
+
         </div>
     )
 }

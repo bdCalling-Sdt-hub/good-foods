@@ -15,7 +15,7 @@ const Banner = () => {
         return (
             <button
                 onClick={onClick}
-                className="prev absolute top-[50%] -left-[67px] bg-[#FFFFFF] bg-opacity-[30%] w-9 h-9 rounded-full flex items-center justify-center"
+                className="prev absolute top-[50%] -left-12 md:-left-[67px]  bg-[#FFFFFF] bg-opacity-[30%] w-9 h-9 rounded-full flex items-center justify-center"
             >
                 <BiChevronLeft size={24} color='#EEEEEE' className='mx-auto ' />
             </button>
@@ -27,7 +27,7 @@ const Banner = () => {
         return (
             <button
                 onClick={onClick}
-                className="next bg-[#FFFFFF] bg-opacity-[30%] w-9 h-9 rounded-full flex items-center justify-center absolute top-[50%] -right-[67px]"
+                className="next bg-[#FFFFFF] bg-opacity-[30%] w-9 h-9 rounded-full flex items-center justify-center absolute top-[50%] -right-12 md:-right-[67px]"
             >
                 <BiChevronRight size={24} color='#EEEEEE' className='mx-auto' />
             </button>
@@ -51,32 +51,32 @@ const Banner = () => {
         <div
             style={{
                 width: "100%",
-                height: "700px",
                 backgroundImage: `url('/assets/banner2.png')`,
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "container",
             }}
-            className='flex items-center justify-between'
+            className='h-full lg:h-[700px] flex flex-col-reverse lg:flex-row items-center justify-between'
         >
             <div>
-                <Heading name='Keep track of' style='font-bold text-[80px] leading-[100px] text-[#1A1A1A]' />
-                <Heading name='Fitness Goal' style='font-bold text-[80px] leading-[100px] text-primary' />
-                <Heading name='Order on Simply Good Food' style='font-medium text-[32px] leading-[20px] text-[#1A1A1A] mb-10' />
+                <Heading name='Keep track of' style='font-bold text-[40px] md:text-[80px] leading-[60px] md:leading-[100px] text-[#1A1A1A]' />
+                <Heading name='Fitness Goal' style='font-bold text-[40px] md:text-[80px] leading-[60px] md:leading-[100px] text-primary' />
+                <Heading name='Order on Simply Good Food' style='font-medium text-[18px] md:text-[32px] mt-3 md:mt-0 leading-[20px] text-[#1A1A1A] mb-10' />
                 <Link href={"/meal"} >
                     <button className='bg-secondary text-white flex items-center justify-center gap-1 w-[141px] h-[48px] rounded-lg'>
                         Meal Plan <MdOutlineArrowOutward color='white' size={22}/>
                     </button>
                 </Link>
             </div>
+
             <div
                 style={{
                     backgroundImage: `url('/assets/circle.png')`,
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
-                    backgroundSize: "container"
+                    backgroundSize: "contain"
                 }}
-                className='w-[556px] h-[575px] flex items-center justify-center overflow-hidden banner-foods'
+                className=' w-[400px]  sm:w-[556px] h-[400px] sm:h-[575px] flex items-center justify-center overflow-hidden banner-foods'
             >
                 <div className="slider relative" >
                     <Slider {...settings}>

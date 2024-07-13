@@ -1,3 +1,4 @@
+"use client"
 import { Button, Form, Input } from 'antd';
 import React from 'react';
 

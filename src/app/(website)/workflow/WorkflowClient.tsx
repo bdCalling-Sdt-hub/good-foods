@@ -38,8 +38,8 @@ const WorkflowClient = () => {
         <div className='container mt-[120px]'>
 
             {/* work flow heading */}
-            <div className='grid grid-cols-12 gap-20'>
-                <div className='col-span-6'>
+            <div className='grid grid-cols-12 gap-6 lg:gap-20'>
+                <div className='col-span-12 lg:col-span-6 order-2 lg:order-1'>
                     <Heading name='How it Works' style='font-bold text-[32px] leading-[48px] text-[#000000] mb-6' />
                     <div className='grid grid-cols-1 gap-4'>
                         {
@@ -74,7 +74,7 @@ const WorkflowClient = () => {
                         }
                     </div>
                 </div>
-                <div className="col-span-6 h-[426px] relative">
+                <div className="col-span-12 lg:col-span-6 order-1 lg:order-2 h-[300px] md:h-[426px] relative">
                     <Image
                         alt="Catering"
                         src={work}
@@ -88,7 +88,7 @@ const WorkflowClient = () => {
                 <Heading name='How it Works' style='font-bold text-[32px] leading-[48px] text-[#000000] mb-3' />
                 <p className='font-normal text-[16px] leading-[24px] text-[#656565]'>Subscribe for free shipping. Just pick your meals, tell us how often you want them, <br /> and then we&apos;ll take care of the rest.</p>
 
-                <div className='grid grid-cols-2 gap-10 w-[928px] mx-auto mt-10'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[928px] mx-auto mt-10'>
                     <div className='flex gap-6'>
                         <Image
                             src={weekly}
