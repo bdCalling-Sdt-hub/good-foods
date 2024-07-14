@@ -1,12 +1,14 @@
 "use client";
-import Image from 'next/image';
-import React from 'react';
-import Product from "@/assets/foods.png";
+import React from 'react'
+import Heading from '../shared/Heading'
+import NewProduct from '../Home/NewProduct'
+import Slider, { CustomArrowProps, Settings } from 'react-slick';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { FaStar } from 'react-icons/fa6';
-import Slider, { CustomArrowProps, Settings } from "react-slick";
-import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
+import Image from 'next/image';
+import Product from "@/assets/foods.png";
 
-const NewProduct = () => {
+const MenuDetails = () => {
     const ArrowLeft = ({ currentSlide, slideCount, ...props }: CustomArrowProps) => (
         <button
             {...props}
@@ -62,9 +64,11 @@ const NewProduct = () => {
             }
         ]
     };
-    
     return (
-            <div className='my-16'>
+        <div>
+            <Heading name='Related Products' style='font-bold text-[32px] sm::text-[40px] leading-[38px] sm:leading-[46px] text-[#3E3E3E] mb-4' />
+            
+            <div>
                 <Slider {...settings}>
                     {
                         [...Array(10)].map((item, index)=>{
@@ -99,7 +103,8 @@ const NewProduct = () => {
                     }
                 </Slider>
             </div>
+        </div>
     )
 }
 
-export default NewProduct
+export default MenuDetails

@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 import { GoSearch } from "react-icons/go";
 import { IoIosInformationCircle } from "react-icons/io";
+import Catering from "@/assets/catering.png";
+import Image from 'next/image';
 const {Option} = Select;
 
 const TransactionsClient = () => {
@@ -45,7 +47,7 @@ const TransactionsClient = () => {
                 <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                     {
                         ["S.no ", "Name", "Orders", "OrderDate", "Delivery date", "Price", "Status", "Action"].map((item, index)=>
-                        <th key={index} className={`text-[14px] py-2 ${index === 0 ? "pl-4" : "pl-0"} leading-7 text-[#3E3E3E]`}>
+                        <th key={index} className={`text-[18px] text-center py-2 leading-7 text-[#3E3E3E]`}>
                             {item}
                         </th>
                         )
@@ -57,13 +59,21 @@ const TransactionsClient = () => {
                         <React.Fragment key={index}>
                             <div style={{marginTop: '8px'}}></div>
                             <tr>
-                                <td className='h-[50px] pl-4 text-[12px] leading-5 text-[#636363] font-normal'>{index + 1}</td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>Nadir</td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>Small Meal</td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>2024-07-10</td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>2024-07-12</td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>$100</td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>{index + 1}</td>
+                                <td className='h-[50px] flex items-center justify-center gap-3 text-[16px] leading-5 text-[#636363] font-normal'>
+                                    <Image
+                                        alt="Catering"
+                                        src={Catering}
+                                        width={48}
+                                        height={48}
+                                    />
+                                    Nadir
+                                </td>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>Small Meal</td>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>2024-07-10</td>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>2024-07-12</td>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>$100</td>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>
                                     <Select
                                         style={{
                                             width: "120px",
@@ -78,7 +88,7 @@ const TransactionsClient = () => {
                                         <Select.Option value="delivered">Delivered</Select.Option>
                                     </Select>
                                 </td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>
+                                <td className='h-[50px] text-[16px] flex items-center justify-center leading-5 text-[#636363] font-normal'>
                                     <IoIosInformationCircle size={24} color='#735571' />
                                 </td>
                             </tr>

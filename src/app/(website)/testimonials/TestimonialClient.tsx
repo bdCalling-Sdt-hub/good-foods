@@ -14,7 +14,7 @@ const TestimonialClient = () => {
                     [...Array(4)]?.map((testimonial, index)=>{
                         return(
                             <div key={index}>
-                                <div className={`flex flex-col md:flex-row  ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"} gap-10`}>
+                                <div className={`flex flex-col  ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} gap-10`}>
                                     <div className="w-fit mx-auto">
                                         <Image
                                             alt="Catering"
@@ -26,7 +26,6 @@ const TestimonialClient = () => {
                                     <div className="w-full">
                                         <Heading name='Anjelina' style='font-normal text-[24px] leading-[27px] text-[#333333] mb-4' />
                                         <p className='text-[16px] leading-5 font-normal text-[#FDB64E] my-4'>Student</p>
-
                                         <p className='text-[16px] leading-5 font-normal text-[#767676]'>
                                             scelerisque convallis. Sed faucibus dui. sit tincidunt eu placerat. eget Ut nisi cursus venenatis tortor. leo. 
                                             faucibus dui diam est. Ut at sed tincidunt eget consectetur non, tincidunt In efficitur. laoreet non felis, faucibus 

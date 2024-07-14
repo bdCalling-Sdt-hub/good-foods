@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FaStar } from "react-icons/fa";
 import type { PaginationProps } from 'antd';
 import { Pagination } from 'antd';
+import Link from 'next/link';
 
 const MenuClient = () => {
     const [tab, setTab] = useState("Full Menus");
@@ -58,35 +59,42 @@ const MenuClient = () => {
             </div>
 
             {/* menus container */}
-            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 menu-container'>
                 {
                     [...Array(10)].map((item, index)=>{
                         return(
-                            <div key={index} className='bg-[#F7F7F7] p-2 rounded-lg'>
-                                <Image
-                                    alt='Product'
-                                    src={Product}
-                                    style={{objectFit: "contain"}}
-                                />
+                            <Link href={`/details/${index}`} key={index}>
+                                <div  className='bg-[#F7F7F7] relative p-2 rounded-lg'>
+                                    <Image
+                                        alt='Product'
+                                        src={Product}
+                                        style={{objectFit: "cover"}}
+                                    />
 
-                                {/* meal description */}
-                                <div>
-                                    <div className='flex items-center gap-3 mt-4 mb-1'>
-                                        <FaStar className='' color='#FDB64E' size={14} /> <span className='text-[#FDB64E] text-[14px] leading-[18px] font-medium'>4.5/5</span>
-                                    </div>
-                                    <p className='font-bold text-[18px] leading-7 text-[#5C5C5C]'>Heathy Food Name</p>
-                                    <p className='font-semibold text-[16px] leading-5 text-[#735571] my-1'>$100</p>
-                                    <button className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Add to cart</button>
+                                    {/* meal description */}
+                                    <div>
+                                        <div className='flex items-center gap-3 mt-4 mb-1'>
+                                            <FaStar className='' color='#FDB64E' size={14} /> <span className='text-[#FDB64E] text-[14px] leading-[18px] font-medium'>4.5/5</span>
+                                        </div>
+                                        <p className='font-bold text-[18px] leading-7 text-[#5C5C5C]'>Heathy Food Name</p>
+                                        <p className='font-semibold text-[16px] leading-5 text-[#735571] my-1'>$100</p>
+                                        <button
+                                            onClick={(e)=>{
+                                                e.stopPropagation();
+                                                e.preventDefault()
+                                            }} 
+                                        className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Add to cart</button>
 
-                                    <div className='flex items-center justify-center gap-3 my-3'>
-                                        <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Protein 49g</span>
-                                        <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#000000]'>/</span>
-                                        <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Carbs 23g</span>
-                                        <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#000000]'>/</span>
-                                        <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Fat 23g</span>
+                                        <div className='flex items-center justify-center gap-3 my-3'>
+                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Protein 49g</span>
+                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#000000]'>/</span>
+                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Carbs 23g</span>
+                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#000000]'>/</span>
+                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Fat 23g</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })
                 }

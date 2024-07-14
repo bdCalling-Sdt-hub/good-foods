@@ -5,14 +5,16 @@ import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import Logo from "@/assets/logo.png";
 import { AiOutlineUser } from "react-icons/ai";
 import { Menu } from 'lucide-react';
-import { Drawer } from 'antd';
+import { Drawer, Input } from 'antd';
 import { X } from 'lucide-react';
+import Modal from './Modal';
 
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const [toggling, setToggling] = useState(false);
-    const [openDrawer, setOpenDrawer] = useState(false)
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const [openFeedBackModal, setOpenFeedBackModal] = useState(false);
 
     
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -62,6 +64,28 @@ const Navbar = () => {
             document.removeEventListener('click', handleClickOutside);
         };
     }, [toggling]);
+
+    const body=(
+        <div>
+            <p className='text-[16px] leading-6 font-normal text-[#636363] mb-2'>Discursive Your FeedBack</p>
+            <div>
+                <Input.TextArea
+                    style={{
+                        resize: "none",
+                        height: 150,
+                        border: "1px solid #DCDDDE",
+                        color: "#818181",
+                        outline: "none",
+                        boxShadow: "none"
+                    }}
+                    className='placeholder:text-[#818181] placeholder:text-[14px] placeholder:leading-[20px]'
+                    placeholder='Write Your Feedback'
+                />
+
+                <button onClick={()=> setOpenFeedBackModal(false)} className='border-none mt-10 font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Submit</button>
+            </div>
+        </div>
+    )
     
     return (
         <div className='fixed z-10 top-0 w-full left-0 bg-white border-b-[1px] border-[#00000] border-opacity-[40%]'>
@@ -134,7 +158,7 @@ const Navbar = () => {
                             className='absolute bg-white top-16 right-0 rounded w-[150px]'
                         >
                             <ul className='grid grid-cols-1 gap-1'>
-                                <li className='text-[#656565]  cursor-pointer transition-all duration-100 text-[14px] rounded-t-sm text-center  hover:bg-primary hover:text-white leading-6 font-normal py-2'>FeedBack</li>
+                                <li onClick={()=>(setOpen(false), setOpenFeedBackModal(true))} className='text-[#656565]  cursor-pointer transition-all duration-100 text-[14px] rounded-t-sm text-center  hover:bg-primary hover:text-white leading-6 font-normal py-2'>FeedBack</li>
                                 <Link href={"/profile"} >
                                     <li onClick={()=>setOpen(false)} className='text-[#656565] transition-all duration-100 text-center hover:bg-primary hover:text-white text-[14px] leading-6 font-normal py-2'>Profile</li>
                                 </Link>
@@ -186,6 +210,13 @@ const Navbar = () => {
                     }
                 </div>
             </Drawer>
+
+            <Modal
+                title='Feedback'
+                open={openFeedBackModal}
+                setOpen={setOpenFeedBackModal}
+                body={body}
+            />
 
         </div>
     )

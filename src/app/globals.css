@@ -63,3 +63,10 @@ body, html {
 .slick-slider .slick-slide {
     padding: 0 8px !important;
 }
+
+@media only screen and (max-width: 639px) and (min-width: 440px){
+    .menu-container{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
