@@ -4,17 +4,37 @@ import { Button, Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 import { useRouter } from "next/navigation";
+import { useEmailVerifyMutation } from '@/redux/apiSlices/authSlice';
+import toast from 'react-hot-toast';
 
 
-const OtpVerifyClient = () => {
+const OtpVerifyClient = ({email}: {email: string}) => {
     const [form] = Form.useForm();
     const router = useRouter();
-    const handleSubmit=(values:any)=>{
+    form.setFieldsValue(undefined);
+    const [ emailVerify ] = useEmailVerifyMutation();
+    
+
+    const handleSubmit= async(values:any)=>{
         console.log(values)
+        const passwordValue = {
+            email: email,
+            oneTimePassword: values.otp
+        }
+        
+        /* await emailVerify(passwordValue)
+        .then((result)=>{
+            if(result.data.statusCode === 200){
+                toast.error(result.data?.message);
+                router.push('/resetPassword');
+            }
+        }).catch((error)=>{
+            toast.error(error.data?.message)
+        }) */
+
         router.push('/resetPassword'); 
 
     }
-    form.setFieldsValue(undefined)
     
     return (
         <div className='bg-[#FEFEFE] bg-opacity-[90%] rounded-[16px] p-[50px]'>

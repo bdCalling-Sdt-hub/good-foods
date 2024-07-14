@@ -1,5 +1,6 @@
 "use client"
 import Heading from '@/components/shared/Heading';
+import { useResetPasswordMutation } from '@/redux/apiSlices/authSlice';
 import { Button, Form, Input } from 'antd';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -7,12 +8,30 @@ import React from 'react'
 const ResetPasswordClient = () => {
     const [form] = Form.useForm();
     const router = useRouter();
-    const handleSubmit=(values:any)=>{
+    form.setFieldsValue(undefined);
+    const [resetPassword, {isLoading} ] = useResetPasswordMutation()
+
+
+    const handleSubmit=async(values:any)=>{
         console.log(values)
+        const formData = new FormData();
+
+        Object.keys(values).forEach((key)=>{
+            formData.append(key, values[key]);
+        })
+
+        /* await resetPassword(formData)
+        .then((result)=>{
+            if(result.data.statusCode === 200){
+                toast.error(result.data?.message);
+                router.push('/login');
+            }
+        }).catch((error)=>{
+            toast.error(error.data?.message)
+        }) */
         router.push('/login'); 
 
     }
-    form.setFieldsValue(undefined);
 
 
     return (
@@ -92,7 +111,7 @@ const ResetPasswordClient = () => {
                             color: "#ffffff"
                         }}
                     >
-                        Reset Password
+                        {isLoading ? "Loading" : "Reset Password"}
                     </Button>
                 </Form.Item>
 

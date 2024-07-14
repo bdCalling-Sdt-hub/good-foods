@@ -56,44 +56,46 @@ const Banner = () => {
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "container",
             }}
-            className='h-full lg:h-[700px] flex flex-col-reverse lg:flex-row items-center justify-between'
+            
         >
-            <div>
-                <Heading name='Keep track of' style='font-bold text-[40px] md:text-[80px] leading-[60px] md:leading-[100px] text-[#1A1A1A]' />
-                <Heading name='Fitness Goal' style='font-bold text-[40px] md:text-[80px] leading-[60px] md:leading-[100px] text-primary' />
-                <Heading name='Order on Simply Good Food' style='font-medium text-[18px] md:text-[32px] mt-3 md:mt-0 leading-[20px] text-[#1A1A1A] mb-10' />
-                <Link href={"/meal"} >
-                    <button className='bg-secondary text-white flex items-center justify-center gap-1 w-[141px] h-[48px] rounded-lg'>
-                        Meal Plan <MdOutlineArrowOutward color='white' size={22}/>
-                    </button>
-                </Link>
-            </div>
+            <div className='container h-full lg:h-[700px] flex flex-col-reverse lg:flex-row items-center justify-between'>
+                <div>
+                    <Heading name='Keep track of' style='font-bold text-[40px] md:text-[80px] leading-[60px] md:leading-[100px] text-[#1A1A1A]' />
+                    <Heading name='Fitness Goal' style='font-bold text-[40px] md:text-[80px] leading-[60px] md:leading-[100px] text-primary' />
+                    <Heading name='Order on Simply Good Food' style='font-medium text-[18px] md:text-[32px] mt-3 md:mt-0 leading-[20px] text-[#1A1A1A] mb-10' />
+                    <Link href={"/meal"} >
+                        <button className='bg-secondary text-white flex items-center justify-center gap-1 w-[141px] h-[48px] rounded-lg'>
+                            Meal Plan <MdOutlineArrowOutward color='white' size={22}/>
+                        </button>
+                    </Link>
+                </div>
 
-            <div
-                style={{
-                    backgroundImage: `url('/assets/circle.png')`,
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "contain"
-                }}
-                className=' w-[400px]  sm:w-[556px] h-[400px] sm:h-[575px] flex items-center justify-center overflow-hidden banner-foods'
-            >
-                <div className="slider relative" >
-                    <Slider {...settings}>
-                        {
-                            [...Array(3)].map((item, index) => (
-                                <div key={index}>
-                                    <Image
-                                        src={FoodBanner}
-                                        width={400}
-                                        height={400}
-                                        alt='food'
-                                        className=' mx-auto rounded-full'
-                                    />
-                                </div>
-                            ))
-                        }
-                    </Slider>
+                <div
+                    style={{
+                        backgroundImage: `url('/assets/circle.png')`,
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "contain"
+                    }}
+                    className=' w-[400px]  sm:w-[556px] h-[400px] sm:h-[575px] flex items-center justify-center overflow-hidden banner-foods'
+                >
+                    <div className="slider relative" >
+                        <Slider {...settings}>
+                            {
+                                [...Array(3)].map((item, index) => (
+                                    <div key={index}>
+                                        <Image
+                                            src={FoodBanner}
+                                            width={400}
+                                            height={400}
+                                            alt='food'
+                                            className=' mx-auto rounded-full'
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </Slider>
+                    </div>
                 </div>
             </div>
         </div>

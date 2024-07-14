@@ -1,15 +1,33 @@
 "use client"
 import Heading from '@/components/shared/Heading';
+import { useRegisterMutation } from '@/redux/apiSlices/authSlice';
 import { Button, Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
 const RegisterClient = () => {
     const [form] = Form.useForm();
+    form.setFieldsValue(undefined);
+    const [register, {isLoading}]=useRegisterMutation()
+
+
     const handleSubmit=(values:any)=>{
-        console.log(values)
+        const formData = new FormData();
+
+        Object.keys(values).forEach((key)=>{
+            formData.append(key, values[key]);
+        })
+
+        /* await register(formData)
+        .then((result)=>{
+            if(result.data.statusCode === 200){
+                toast.error(result.data?.message);
+                router.push('/login');
+            }
+        }).catch((error)=>{
+            toast.error(error.data?.message)
+        }) */
     }
-    form.setFieldsValue(undefined)
     
     return (
         <div className='bg-[#FEFEFE] bg-opacity-[90%] rounded-[16px] p-[50px]'>
@@ -158,7 +176,7 @@ const RegisterClient = () => {
                             color: "#ffffff"
                         }}
                     >
-                        Log in
+                        {isLoading ? "Loading" : "Sign up"}
                     </Button>
                 </Form.Item>
 

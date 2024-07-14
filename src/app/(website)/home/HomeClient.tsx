@@ -170,12 +170,15 @@ const HomeClient = () => {
     )
     return (
 
-        <div className='container mt-[100px] md:mt-[80px] relative'>
+        <div className=' mt-[100px] md:mt-[80px]'>
             <Banner/>
-            <SimpleFood/>
-            <NewProduct/>
-            <FoodBanner/>
-            <FaqClient/>
+            <div className='container mt-[100px] md:mt-[80px] relative'>
+
+                <SimpleFood/>
+                <NewProduct/>
+                <FoodBanner/>
+                <FaqClient/>
+            
             {
                 open &&
                 <div  className='w-[400px] fixed right-24 top-[84px] h-[400px] bg-white rounded-lg' >
@@ -253,6 +256,7 @@ const HomeClient = () => {
                 title='Confirm Payment' 
                 body={body}
             />
+            </div>
         </div>
     )
 }

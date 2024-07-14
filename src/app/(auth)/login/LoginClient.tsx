@@ -2,15 +2,35 @@
 import Heading from '@/components/shared/Heading';
 import { Button, Checkbox, Form, Input } from 'antd'
 import Link from 'next/link';
-import React from 'react'
+import React from 'react';
+
+import { useLoginMutation } from "@/redux/apiSlices/authSlice"
+import toast from 'react-hot-toast';
 
 const LoginClient = () => {
     const [form] = Form.useForm();
-    const handleSubmit=(values:any)=>{
-        console.log(values)
-    }
     form.setFieldsValue(undefined)
+    const [login, { isLoading }] = useLoginMutation()
 
+
+    const handleSubmit=async(values:any)=>{
+        const formData = new FormData();
+
+        Object.keys(values).forEach((key)=>{
+            formData.append(key, values[key]);
+        })
+
+        /* await login(formData)
+        .then((result)=>{
+            if(result.data.statusCode === 200){
+                toast.error(result.data?.message);
+                router.push('/');
+            }
+        }).catch((error)=>{
+            toast.error(error.data?.message)
+        }) */
+
+    }
 
 
     return (
@@ -55,7 +75,6 @@ const LoginClient = () => {
                 >
                     <Input.Password
                         placeholder='Enter Password'
-                        className='placeholder:text-[#818181] placeholder:text-[16px] placeholder:font-normal placeholder:leading-6'
                         style={{
                             width: "100%",
                             height: 50,
@@ -63,8 +82,11 @@ const LoginClient = () => {
                             outline: "none",
                             border: "1px solid #E0E0E0",
                             borderRadius: 24,
+                            color: "#818181",
+                            fontSize: 16,
                             background: "#FEFEFE"
                         }}
+                        className='custom-input'
                     />
                 </Form.Item>
 
@@ -97,7 +119,7 @@ const LoginClient = () => {
                             color: "#ffffff"
                         }}
                     >
-                        Log in
+                       {isLoading ? "Loading" : " Log in"}
                     </Button>
                 </Form.Item>
 
