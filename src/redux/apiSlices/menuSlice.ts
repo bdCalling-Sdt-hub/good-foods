@@ -6,7 +6,7 @@ const menuSlice = api.injectEndpoints({
             query: (data) => {
                 return{
                     method: "POST",
-                    url: "/user",
+                    url: "/products/create-product",
                     body: data,
                     headers:{
                         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
@@ -20,7 +20,7 @@ const menuSlice = api.injectEndpoints({
                 if(filter) params.append("category", filter);
                 return{
                     method: "GET",
-                    url: `/user/profile?${params.toString()}`
+                    url: `/products?${params.toString()}`
                 }
             }
         }),

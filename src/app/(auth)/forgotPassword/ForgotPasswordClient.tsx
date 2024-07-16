@@ -6,6 +6,7 @@ import React from 'react';
 import { FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { useForgotPasswordMutation } from '@/redux/apiSlices/authSlice';
+import toast from 'react-hot-toast';
 
 const ForgotPasswordClient = () => {
     const [form] = Form.useForm();
@@ -14,21 +15,17 @@ const ForgotPasswordClient = () => {
     const [ forgotPassword, {isLoading} ] = useForgotPasswordMutation();
 
     const handleSubmit=async(values:any)=>{
-        // console.log(values)
-
-        /* await forgotPassword({email: values?.email})
-        .then((result)=>{
-            if(result.data.statusCode === 200){
-                toast.error(result.data?.message);
-                router.push('/otp-verify');
-            }
-        }).catch((error)=>{
-            toast.error(error.data?.message)
-        }) */
-
-        router.push('/otp-verify'); 
-
-
+        try {
+            await forgotPassword(values).unwrap().then((result)=>{
+                if (result?.success) {
+                    form.resetFields()
+                    toast.success(result.message);
+                    router.push('/otp-verify');
+                }
+            });
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
     }
     
     

@@ -15,8 +15,8 @@ const MealClient = () => {
 
     useEffect(() => {
         const initialTab = new URLSearchParams(window.location.search).get('tab') || "Small Meal";
-        const initialTab2 = new URLSearchParams(window.location.search).get('index') || 0;
-        setTabItem(Number(initialTab2))
+        /* const initialTab2 = new URLSearchParams(window.location.search).get('index') || 0;
+        setTabItem(Number(initialTab2)) */
         setTab(initialTab);
     }, []);
 

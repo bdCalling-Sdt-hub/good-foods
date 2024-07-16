@@ -4,6 +4,7 @@ import { useResetPasswordMutation } from '@/redux/apiSlices/authSlice';
 import { Button, Form, Input } from 'antd';
 import { useRouter } from 'next/navigation';
 import React from 'react'
+import toast from 'react-hot-toast';
 
 const ResetPasswordClient = () => {
     const [form] = Form.useForm();
@@ -14,22 +15,18 @@ const ResetPasswordClient = () => {
 
     const handleSubmit=async(values:any)=>{
         console.log(values)
-        const formData = new FormData();
-
-        Object.keys(values).forEach((key)=>{
-            formData.append(key, values[key]);
-        })
-
-        /* await resetPassword(formData)
-        .then((result)=>{
-            if(result.data.statusCode === 200){
-                toast.error(result.data?.message);
-                router.push('/login');
-            }
-        }).catch((error)=>{
-            toast.error(error.data?.message)
-        }) */
-        router.push('/login'); 
+    
+        try {
+            await resetPassword(values).unwrap().then((result)=>{
+                if (result?.success) {
+                    form.resetFields()
+                    toast.success(result.message);
+                    router.push('/login');
+                }
+            });
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
 
     }
 

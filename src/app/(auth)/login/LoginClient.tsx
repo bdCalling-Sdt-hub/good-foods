@@ -3,34 +3,34 @@ import Heading from '@/components/shared/Heading';
 import { Button, Checkbox, Form, Input } from 'antd'
 import Link from 'next/link';
 import React from 'react';
-
 import { useLoginMutation } from "@/redux/apiSlices/authSlice"
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const LoginClient = () => {
     const [form] = Form.useForm();
+    const router = useRouter();
     form.setFieldsValue(undefined)
     const [login, { isLoading }] = useLoginMutation()
 
 
-    const handleSubmit=async(values:any)=>{
-        const formData = new FormData();
-
-        Object.keys(values).forEach((key)=>{
-            formData.append(key, values[key]);
-        })
-
-        /* await login(formData)
-        .then((result)=>{
-            if(result.data.statusCode === 200){
-                toast.error(result.data?.message);
-                router.push('/');
-            }
-        }).catch((error)=>{
-            toast.error(error.data?.message)
-        }) */
-
-    }
+    const handleSubmit = async (values: any) => {
+        router.push('/');
+        /* try {
+            await login({ ...values }).unwrap().then((result)=>{
+                if (result?.success) {
+                    form.resetFields()
+                    toast.success(result.message);
+                    localStorage.setItem("token", JSON.stringify(result?.data));
+                    router.push('/');
+                }
+            });
+            
+        } catch (error: any) {
+            console.log(error)
+            toast.error(error.data.message || "An unexpected server error occurred");
+        } */
+    };
 
 
     return (

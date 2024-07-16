@@ -3,31 +3,32 @@ import Heading from '@/components/shared/Heading';
 import { useRegisterMutation } from '@/redux/apiSlices/authSlice';
 import { Button, Form, Input } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const RegisterClient = () => {
     const [form] = Form.useForm();
     form.setFieldsValue(undefined);
+    const router = useRouter();
     const [register, {isLoading}]=useRegisterMutation()
 
 
-    const handleSubmit=(values:any)=>{
-        const formData = new FormData();
-
-        Object.keys(values).forEach((key)=>{
-            formData.append(key, values[key]);
-        })
-
-        /* await register(formData)
-        .then((result)=>{
-            if(result.data.statusCode === 200){
-                toast.error(result.data?.message);
-                router.push('/login');
-            }
-        }).catch((error)=>{
-            toast.error(error.data?.message)
-        }) */
-    }
+    const handleSubmit = async (values: any) => {
+        router.push('/');
+        /* try {
+            await register({ ...values }).unwrap().then((result)=>{
+                if (result?.success) {
+                    form.resetFields()
+                    toast.success(result.message);
+                    router.push('/otp-verify');
+                }
+            });
+            
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        } */
+    };
     
     return (
         <div className='bg-[#FEFEFE] bg-opacity-[90%] rounded-[16px] p-[50px]'>
@@ -85,7 +86,32 @@ const RegisterClient = () => {
                 </Form.Item>
 
                 <Form.Item
-                    name="contact_no"
+                    name="location"
+                    label={<p className='font-medium text-[16px] leading-6 text-[#636363]'>Permanent Address</p>}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please Enter location!"
+                        }
+                    ]}
+                >
+                    <Input
+                        placeholder='Enter Your Location'
+                        style={{
+                            width: "100%",
+                            height: 50,
+                            boxShadow: "none",
+                            outline: "none",
+                            border: "1px solid #E0E0E0",
+                            borderRadius: 24,
+                            background: "#FEFEFE"
+                        }}
+                        className='poppins placeholder:text-[#818181] placeholder:text-[14px] placeholder:font-normal placeholder:leading-6'
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="contact"
                     label={<p className='font-medium text-[16px] leading-6 text-[#636363]'>Contact No</p>}
                     rules={[
                         {

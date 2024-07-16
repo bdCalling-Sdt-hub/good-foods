@@ -12,27 +12,27 @@ const OtpVerifyClient = ({email}: {email: string}) => {
     const [form] = Form.useForm();
     const router = useRouter();
     form.setFieldsValue(undefined);
-    const [ emailVerify ] = useEmailVerifyMutation();
+    const [ emailVerify, {isLoading} ] = useEmailVerifyMutation();
     
 
     const handleSubmit= async(values:any)=>{
-        console.log(values)
-        const passwordValue = {
+
+        const otpValue = {
             email: email,
             oneTimePassword: values.otp
         }
-        
-        /* await emailVerify(passwordValue)
-        .then((result)=>{
-            if(result.data.statusCode === 200){
-                toast.error(result.data?.message);
-                router.push('/resetPassword');
-            }
-        }).catch((error)=>{
-            toast.error(error.data?.message)
-        }) */
 
-        router.push('/resetPassword'); 
+        try {
+            await emailVerify(otpValue).unwrap().then((result)=>{
+                if (result?.success) {
+                    form.resetFields()
+                    toast.success(result.message);
+                    router.push('/login');
+                }
+            });
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
 
     }
     
@@ -98,7 +98,7 @@ const OtpVerifyClient = ({email}: {email: string}) => {
                             color: "#ffffff"
                         }}
                     >
-                        Send Code
+                        {isLoading ? "Verifying" : "Code Verify"}
                     </Button>
                 </Form.Item>
 

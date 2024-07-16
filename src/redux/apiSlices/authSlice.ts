@@ -4,6 +4,7 @@ const authSlice = api.injectEndpoints({
     endpoints: (builder) => ({
         register: builder.mutation({
             query: (data) => {
+                
                 return{
                     method: "POST",
                     url: "/user",
@@ -69,7 +70,10 @@ const authSlice = api.injectEndpoints({
             query: () => {
                 return{
                     method: "GET",
-                    url: "/user/profile"
+                    url: "/user/profile",
+                    headers:{
+                        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
+                    }
                 }
             }
         }),
