@@ -110,7 +110,7 @@ const EditProfile: React.FC<IEditProfileProps> = ({image, setImage}) => {
                         width: 197,
                         height: 48,
                         color: "#FCFCFC",
-                        background: "#277e16"
+                        background: "#6EA963"
                     }}
                 >
                     Save & Changes

@@ -27,7 +27,7 @@ body, html {
 
 .ant-pagination .ant-pagination-item-active {
     font-weight: 600;
-    background-color: #277E16 !important;
+    background-color: #6EA963 !important;
     border: none !important;
     border-color: none !important;
     border-radius: 100%;
@@ -73,4 +73,16 @@ body, html {
 
 #password::placeholder {
     @apply text-[#818181] text-[16px] font-normal leading-6;
+}
+
+.customUpload .ant-upload-select{
+    width: 100%;
+}
+
+.ant-select-selector{
+    border-color:#D6D6D6;
+}
+
+.ant-select-selector:hover {
+    border-color:#D6D6D6 !important;
 }

@@ -1,8 +1,9 @@
 "use client";
 import Heading from '@/components/shared/Heading'
-import { Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input, Select, Upload } from 'antd'
 import Link from 'next/link';
 import React from 'react';
+import { GrDocumentUpload } from 'react-icons/gr';
 import { MdArrowBackIos } from "react-icons/md";
 
 const CreateMenuClient = () => {
@@ -27,11 +28,12 @@ const CreateMenuClient = () => {
                             message: "Please Select Menu"
                         }
                     ]}
-                >
+                    >
                     <Select
                         style={{
-                            height: 42,
+                            height: 42
                         }}
+                        placeholder="Select Any Menu"
                     >
                         <Select.Option value="">Meal</Select.Option>
                         <Select.Option value="">Meal</Select.Option>
@@ -54,8 +56,9 @@ const CreateMenuClient = () => {
                 >
                     <Select
                         style={{
-                            height: 42,
+                            height: 42
                         }}
+                        placeholder="Select Any Meal"
                     >
                         <Select.Option value="">Meal</Select.Option>
                         <Select.Option value="">Meal</Select.Option>
@@ -90,30 +93,26 @@ const CreateMenuClient = () => {
 
                 <Form.Item
                     style={{marginBottom: 0}}
-                    className='col-span-4'
+                    className='col-span-4 customUpload'
                     label={<p className='font-medium text-[14px] leading-5 text-[#636363]'>Image</p>}
+                    name="image"
+                    valuePropName="file"
+                    getValueFromEvent={(e) => e && e.fileList[0]?.originFileObj}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please Upload Menu Image"
+                        }
+                    ]}
                     
                 >
-                    <Input
-                        placeholder=''
-                        style={{display: "none"}}
-                    />
-                    <label 
-                        htmlFor="" 
-                        style={{
-                            display: "block",
-                            width: "100%",
-                            background: "transparent",
-                            outline: "none",
-                            boxShadow: "none",
-                            border: "1px solid #D6D6D6",
-                            marginBottom: 0,
-                            borderRadius: 8,
-                            height: 42
-                        }}
-                    >
-
-                    </label>
+                    <Upload maxCount={1} className="customFile">
+                        <div className="cursor-pointer bg-transparent border border-[#D6D6D6] px-4 py-[2px] w-full h-[42px] rounded-lg  flex items-center gap-4">
+                            
+                            <GrDocumentUpload color='#636363' size={24} />
+                            <p className='text-[#636363] text-[14px] font-normal leading-4'>Click to Upload</p>
+                        </div>
+                    </Upload>
                 </Form.Item>
 
                 <Form.Item
@@ -294,7 +293,7 @@ const CreateMenuClient = () => {
                     <Button 
                         htmlType='submit'
                         style={{
-                            background: "#277E16",
+                            background: "#6EA963",
                             color: "white",
                             border: "none",
                             height: 42

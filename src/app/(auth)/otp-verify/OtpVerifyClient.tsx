@@ -8,7 +8,7 @@ import { useEmailVerifyMutation } from '@/redux/apiSlices/authSlice';
 import toast from 'react-hot-toast';
 
 
-const OtpVerifyClient = ({email}: {email: string}) => {
+const OtpVerifyClient = () => {
     const [form] = Form.useForm();
     const router = useRouter();
     form.setFieldsValue(undefined);
@@ -17,7 +17,7 @@ const OtpVerifyClient = ({email}: {email: string}) => {
 
     const handleSubmit= async(values:any)=>{
 
-        const otpValue = {
+        /* const otpValue = {
             email: email,
             oneTimePassword: values.otp
         }
@@ -32,7 +32,7 @@ const OtpVerifyClient = ({email}: {email: string}) => {
             });
         } catch (error: any) {
             toast.error(error.data.message || "An unexpected server error occurred");
-        }
+        } */
 
     }
     
@@ -94,7 +94,7 @@ const OtpVerifyClient = ({email}: {email: string}) => {
                         style={{
                             width: 150,
                             height: 50,
-                            background: "#277E16",
+                            background: "#6EA963",
                             color: "#ffffff"
                         }}
                     >
@@ -105,7 +105,7 @@ const OtpVerifyClient = ({email}: {email: string}) => {
                 <p className="text-[#636363] text-[16px] leading-[21px] font-normal text-center">
                     You have not received the email?
                     <Link className='ml-2' href={"/register"}>
-                        <span className='text-[#277E16] cursor-pointer font-semibold'>Resend</span>
+                        <span className='text-[#6EA963] cursor-pointer font-semibold'>Resend</span>
                     </Link> 
                 </p>
             </Form>

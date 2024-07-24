@@ -16,7 +16,7 @@ const DashboardLayout = ({children}: {children: React.ReactNode}) => {
                         <Image alt='Logo' src={Logo} width={40} height={40} />
                     </Link>
                     <div className='w-9 h-9 bg-[#F1F1F1] rounded-full flex items-center justify-center'>
-                        <FaRegUser size={20} color='#277E16' />
+                        <FaRegUser size={20} color='#6EA963' />
                     </div>
                 </div>
             </div>

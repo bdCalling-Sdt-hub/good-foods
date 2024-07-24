@@ -115,7 +115,7 @@ const Footer = () => {
                             onClick={()=>setKeyword("")}
                             htmlType='submit'
                             style={{
-                                background: "#277E16",
+                                background: "#6EA963",
                                 color: "white",
                                 border: "none",
                                 height: 42

@@ -132,7 +132,7 @@ const Navbar = () => {
                         Sign up
                     </Link>
 
-                    <Menu onClick={()=>setOpenDrawer(true)} className='block cursor-pointer lg:hidden' size={40} color='#277e16' />
+                    <Menu onClick={()=>setOpenDrawer(true)} className='block cursor-pointer lg:hidden' size={40} color='#6EA963' />
 
                     {/* user menu */}
                     <div 
@@ -143,7 +143,7 @@ const Navbar = () => {
                         }} 
                         className='w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full flex items-center justify-center'
                     >
-                        <AiOutlineUser size={24} color='#277E16'/>
+                        <AiOutlineUser size={24} color='#6EA963'/>
                     </div>
 
                     {
