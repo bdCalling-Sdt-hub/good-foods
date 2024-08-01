@@ -1,15 +1,21 @@
-"use client";
-import Image from 'next/image';
-import React from 'react';
-import Product from "@/assets/foods.png";
-import { FaStar } from 'react-icons/fa6';
-import Slider, { CustomArrowProps, Settings } from "react-slick";
-import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
-import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
-import { imageUrl } from '@/redux/api/baseApi';
-import Link from 'next/link';
 
-const NewProduct = () => {
+"use client";
+import React from 'react';
+import Heading from '../shared/Heading'
+import Slider, { CustomArrowProps, Settings } from 'react-slick';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { FaStar } from 'react-icons/fa6';
+import Image from 'next/image';
+import { useRelatedMenuQuery } from '@/redux/apiSlices/menuSlice';
+import Link from 'next/link';
+import { imageUrl } from '@/redux/api/baseApi';
+
+interface IRelatedMenuProps{
+    id: string;
+}
+
+const RelatedMenu: React.FC<IRelatedMenuProps> = ({id}) => {
+
     const ArrowLeft = ({ currentSlide, slideCount, ...props }: CustomArrowProps) => (
         <button
             {...props}
@@ -66,14 +72,14 @@ const NewProduct = () => {
         ]
     };
 
-    const {data: products} = useMenuQuery(undefined);
-
-    
+    const {data: products} = useRelatedMenuQuery(id);
     return (
-            <div className='my-16'>
+        <div>
+            <Heading name='Related Products' style='font-bold text-[32px] sm::text-[40px] leading-[38px] sm:leading-[46px] text-[#3E3E3E] mb-4' />
+            <div className='border h-fit'>
                 <Slider {...settings}>
                     {
-                        products?.data?.map((product:any, index:number)=>{
+                        products?.map((product:any, index:number)=>{
                             return(
                                 <Link href={`/details/${product?._id}`} key={index}>
                                     <div className='bg-[#F7F7F7] relative p-2 rounded-lg'>
@@ -114,7 +120,8 @@ const NewProduct = () => {
                     }
                 </Slider>
             </div>
+        </div>
     )
 }
 
-export default NewProduct
+export default RelatedMenu

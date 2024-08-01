@@ -11,12 +11,10 @@ const LoginClient = () => {
     const [form] = Form.useForm();
     const router = useRouter();
     form.setFieldsValue(undefined)
-    const [login, { isLoading }] = useLoginMutation()
-
+    const [login, { isLoading }] = useLoginMutation();
 
     const handleSubmit = async (values: any) => {
-        router.push('/');
-        /* try {
+        try {
             await login({ ...values }).unwrap().then((result)=>{
                 if (result?.success) {
                     form.resetFields()
@@ -27,9 +25,8 @@ const LoginClient = () => {
             });
             
         } catch (error: any) {
-            console.log(error)
             toast.error(error.data.message || "An unexpected server error occurred");
-        } */
+        }
     };
 
 

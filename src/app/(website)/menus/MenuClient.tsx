@@ -6,13 +6,18 @@ import { FaStar } from "react-icons/fa";
 import type { PaginationProps } from 'antd';
 import { Pagination } from 'antd';
 import Link from 'next/link';
+import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
+import { imageUrl } from '@/redux/api/baseApi';
 
 const MenuClient = () => {
     const [tab, setTab] = useState("Full Menus");
+    const [page, setPage] = useState(1)
 
     useEffect(() => {
         const initialTab = new URLSearchParams(window.location.search).get('tab') || "Full Menus";
         setTab(initialTab);
+        const initialPage = new URLSearchParams(window.location.search).get('page') || 1;
+        setPage(Number(initialPage))
     }, []);
 
 
@@ -22,6 +27,14 @@ const MenuClient = () => {
         params.set('tab', tab);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+    const handlePageChange = (page: number) => {
+        setPage(Number(tab));
+        const params = new URLSearchParams(window.location.search);
+        params.set('page', String(page));
+        window.history.pushState(null, "", `?${params.toString()}`);
+    }
+
 
     const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
         if (type === 'prev') {
@@ -33,13 +46,16 @@ const MenuClient = () => {
         return originalElement;
     };
 
+    const { data, isLoading } = useMenuQuery({page, tab});
+    if (isLoading) return <div>Loading...</div>;
+
     return (
         <div className='container mt-[100px]'>
 
             {/* total menus */}
             <div className='flex flex-col sm:flex-row items-center gap-6 mb-6'>
                 {
-                    ["Full Menus", "Enteree", "Breakfast", "Snack"]?.map((item, index)=>{
+                    ["Full Menus", "Entree", "Breakfast", "Snacks"]?.map((item, index)=>{
                         return(
                             <p 
                                 onClick={()=>handleTab(item)}
@@ -48,6 +64,7 @@ const MenuClient = () => {
                                     h-[35px] cursor-pointer 
                                     ${tab === item ? "bg-[#FDB64E] text-[#F4F4F4]" : "bg-[#EEEEEE] text-[#656565] "}
                                     rounded-lg font-medium text-[16px] leading-5
+                                    capitalize
                                 `} 
                                 key={index}
                             >
@@ -61,39 +78,49 @@ const MenuClient = () => {
             {/* menus container */}
             <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 menu-container'>
                 {
-                    [...Array(10)].map((item, index)=>{
+                    data?.data?.map((product:any, index:number)=>{
                         return(
-                            <Link href={`/details/${index}`} key={index}>
-                                <div  className='bg-[#F7F7F7] relative p-2 rounded-lg'>
-                                    <Image
-                                        alt='Product'
-                                        src={Product}
-                                        style={{objectFit: "cover"}}
-                                    />
-
-                                    {/* meal description */}
-                                    <div>
-                                        <div className='flex items-center gap-3 mt-4 mb-1'>
-                                            <FaStar className='' color='#FDB64E' size={14} /> <span className='text-[#FDB64E] text-[14px] leading-[18px] font-medium'>4.5/5</span>
+                            <Link href={`/details/${product?._id}`} key={index}>
+                                <div className='bg-[#F7F7F7] relative p-2 rounded-lg'>
+                                        <div className='relative h-[200px]'>
+                                            <Image
+                                                alt='Product'
+                                                src={`${imageUrl}${product?.image}`}
+                                                fill
+                                                style={{objectFit: "fill"}}
+                                            />
                                         </div>
-                                        <p className='font-bold text-[18px] leading-7 text-[#5C5C5C]'>Heathy Food Name</p>
-                                        <p className='font-semibold text-[16px] leading-5 text-[#735571] my-1'>$100</p>
-                                        <button
-                                            onClick={(e)=>{
-                                                e.stopPropagation();
-                                                e.preventDefault()
-                                            }} 
-                                        className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Add to cart</button>
 
-                                        <div className='flex items-center justify-center gap-3 my-3'>
-                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Protein 49g</span>
-                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#000000]'>/</span>
-                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Carbs 23g</span>
-                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#000000]'>/</span>
-                                            <span className='font-medium text-[12px] lg:text-[14px] leading-[18px] text-[#BF757B]'>Fat 23g</span>
+                                        {/* meal description */}
+                                        <div>
+                                            {
+                                                product?.rating
+                                                &&
+                                                <div className='flex items-center gap-3 mt-4 mb-1'>
+                                                    <FaStar className='' color='#FDB64E' size={14} /> <span className='text-[#FDB64E] text-[14px] leading-[18px] font-medium'>{product?.rating}</span>
+                                                </div>
+                                            }
+                                            <p className='font-bold text-[18px] leading-7 text-[#5C5C5C]'>{product?.name}</p>
+                                            <p className='font-semibold text-[16px] leading-5 text-[#735571] my-1'>${product?.price}</p>
+                                            <button 
+                                                className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'
+                                                onClick={(e)=>{
+                                                    e.stopPropagation();
+                                                    e.preventDefault()
+                                                }}
+                                            >
+                                                Add to cart
+                                            </button>
+
+                                            <div className='flex items-center justify-center gap-3 my-3'>
+                                                <span className='font-medium text-[14px] leading-[18px] text-[#BF757B]'>Protein {product?.protein}g</span>
+                                                <span className='font-medium text-[14px] leading-[18px] text-[#000000]'>/</span>
+                                                <span className='font-medium text-[14px] leading-[18px] text-[#BF757B]'>Carbs {product?.carbs}g</span>
+                                                <span className='font-medium text-[14px] leading-[18px] text-[#000000]'>/</span>
+                                                <span className='font-medium text-[14px] leading-[18px] text-[#BF757B]'>Fat {product?.fat}g</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </Link>
                         )
                     })
@@ -101,7 +128,13 @@ const MenuClient = () => {
             </div>
             
             <div className='my-6 flex items-center justify-center w-full'>
-                <Pagination showSizeChanger={false} total={30} itemRender={itemRender} />
+                <Pagination
+                    current={Number(page)}
+                    showSizeChanger={false} 
+                    total={data?.meta?.total}
+                    onChange={handlePageChange} 
+                    itemRender={itemRender}
+                />
             </div>
         </div>
     )

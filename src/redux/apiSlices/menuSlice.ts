@@ -15,9 +15,12 @@ const menuSlice = api.injectEndpoints({
             }
         }),
         menu: builder.query({
-            query: (filter) => {
+            query: ({page, tab, meal}) => {
+                console.log(meal)
                 const params = new URLSearchParams();
-                if(filter) params.append("category", filter);
+                if(page) params.append("page", page);
+                if(tab) params.append("menu", tab);
+                if(meal) params.append("mealPlan", meal);
                 return{
                     method: "GET",
                     url: `/products?${params.toString()}`
@@ -28,8 +31,22 @@ const menuSlice = api.injectEndpoints({
             query: (id) => {
                 return{
                     method: "GET",
-                    url: `/user/profile/${id}`
+                    url: `/products/${id}`
                 }
+            },
+            transformResponse: (response:any)=>{
+                return response?.data;
+            }
+        }),
+        relatedMenu: builder.query({
+            query: (id:string) => {
+                return{
+                    method: "GET",
+                    url: `/products/related/${id}`
+                }
+            },
+            transformResponse: (response:any)=>{
+                return response?.data;
             }
         }),
         deleteMenu: builder.mutation({
@@ -57,5 +74,6 @@ export const {
     useMenuQuery,
     useMenuDetailsQuery,
     useDeleteMenuMutation,
-    useUpdateMenuMutation
+    useUpdateMenuMutation,
+    useRelatedMenuQuery
 } = menuSlice;

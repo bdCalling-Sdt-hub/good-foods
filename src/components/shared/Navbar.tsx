@@ -1,13 +1,15 @@
 "use client";
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import React, { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import Logo from "@/assets/logo.png";
 import { AiOutlineUser } from "react-icons/ai";
 import { Menu } from 'lucide-react';
 import { Drawer, Input } from 'antd';
 import { X } from 'lucide-react';
 import Modal from './Modal';
+import { UserContext } from '@/provider/User';
+import { imageUrl } from '@/redux/api/baseApi';
 
 
 const Navbar = () => {
@@ -15,6 +17,7 @@ const Navbar = () => {
     const [toggling, setToggling] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openFeedBackModal, setOpenFeedBackModal] = useState(false);
+    const {user} = useContext(UserContext);
 
     
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -118,19 +121,21 @@ const Navbar = () => {
                 </div>
 
                 <div className='flex items-center gap-6'>
-                    <Link 
-                        href={"/login"}
-                        className=' font-normal w-[104px] h-10 rounded-lg border border-primary text-primary hidden  lg:flex items-center justify-center text-[16px] leading-6'
-                    >
-                        Log in
-                    </Link>
+                    <div className={` ${user?._id ? "none" : "flex"} items-center gap-6`}>
+                        <Link 
+                            href={"/login"}
+                            className=' font-normal w-[104px] h-10 rounded-lg border border-primary text-primary hidden  lg:flex items-center justify-center text-[16px] leading-6'
+                        >
+                            Log in
+                        </Link>
 
-                    <Link 
-                        href={"/register"} 
-                        className='font-normal w-[104px] h-10 rounded-lg bg-primary text-white hidden  lg:flex items-center justify-center text-[16px] leading-6'
-                    >
-                        Sign up
-                    </Link>
+                        <Link 
+                            href={"/register"} 
+                            className='font-normal w-[104px] h-10 rounded-lg bg-primary text-white hidden  lg:flex items-center justify-center text-[16px] leading-6'
+                        >
+                            Sign up
+                        </Link>
+                    </div>
 
                     <Menu onClick={()=>setOpenDrawer(true)} className='block cursor-pointer lg:hidden' size={40} color='#6EA963' />
 
@@ -143,7 +148,18 @@ const Navbar = () => {
                         }} 
                         className='w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full flex items-center justify-center'
                     >
-                        <AiOutlineUser size={24} color='#6EA963'/>
+                        {
+                            user?._id
+                            ?
+                            <Image
+                                src={ user?.profile?.startsWith("https") ? user?.profile : `${imageUrl}${user?.profile}`}
+                                alt='profile'
+                                width={24}
+                                height={24}
+                            />
+                            :
+                            <AiOutlineUser size={24} color='#6EA963'/>
+                        }
                     </div>
 
                     {

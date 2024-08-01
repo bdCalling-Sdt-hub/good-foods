@@ -7,10 +7,13 @@ import { CiEdit } from 'react-icons/ci';
 import EditProfile from '@/components/Profile/EditProfile';
 import OrderHistory from '@/components/Profile/OrderHistory';
 import ChangePassword from '@/components/Profile/ChangePassword';
+import { useProfileQuery } from '@/redux/apiSlices/authSlice';
+import { imageUrl } from '@/redux/api/baseApi';
 
 const ProfileClient = () => {
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState<File | null>(null);
     const [tab, setTab] = useState("Edit Profile");
+    const {data: user, isLoading} = useProfileQuery(undefined);
 
     useEffect(() => {
         const initialTab = new URLSearchParams(window.location.search).get('tab') || "Edit Profile";
@@ -26,9 +29,15 @@ const ProfileClient = () => {
 
     const handleChange = (e: any) => {
         const file = e.target.files[0];
-        setImage(file)
-
+        setImage(file);
     }
+
+    const src = image ? URL?.createObjectURL(image) :  user?.profile?.startsWith("https") ? user?.profile : `${imageUrl}${user?.profile}`;
+
+    if(isLoading){
+        return <p>Loading....</p>
+    }
+
 
     return (
         <div className='container pt-[95px]'>
@@ -40,11 +49,12 @@ const ProfileClient = () => {
                     <input type="file" onChange={handleChange} id='img' style={{ display: "none" }} />
                     <div className='relative w-fit h-fit shadow-lg rounded-full mx-auto'>
                         <Image
-                            src={Logo}
+                            src={src}
                             alt='Profile'
                             width={120}
                             height={120}
                             className='mx-auto'
+                            style={{borderRadius: "100%"}}
                         />
 
                         {/* image upload controller */}
