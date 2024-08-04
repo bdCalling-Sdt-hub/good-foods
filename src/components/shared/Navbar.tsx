@@ -10,6 +10,8 @@ import { X } from 'lucide-react';
 import Modal from './Modal';
 import { UserContext } from '@/provider/User';
 import { imageUrl } from '@/redux/api/baseApi';
+import { usePutFeedbackMutation } from '@/redux/apiSlices/feedbackSlice';
+import toast from 'react-hot-toast';
 
 
 const Navbar = () => {
@@ -18,7 +20,8 @@ const Navbar = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openFeedBackModal, setOpenFeedBackModal] = useState(false);
     const {user} = useContext(UserContext);
-
+    const [feedback, setFeedback] = useState("")
+    const [putFeedback, {isLoading}] = usePutFeedbackMutation()
     
     const dropdownRef = useRef<HTMLDivElement>(null);
     const item = [
@@ -68,6 +71,20 @@ const Navbar = () => {
         };
     }, [toggling]);
 
+    const handleFeedback = async (user:any)=>{
+        try {
+            await putFeedback({ feedback: feedback }).unwrap().then((result)=>{
+                if (result?.success) {
+                    toast.success(result.message);
+                    setOpenFeedBackModal(false)
+                }
+            });
+            
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
+    }
+
     const body=(
         <div>
             <p className='text-[16px] leading-6 font-normal text-[#636363] mb-2'>Discursive Your FeedBack</p>
@@ -81,11 +98,16 @@ const Navbar = () => {
                         outline: "none",
                         boxShadow: "none"
                     }}
+                    onChange={(e)=>setFeedback(e.target.value)}
                     className='placeholder:text-[#818181] placeholder:text-[14px] placeholder:leading-[20px]'
                     placeholder='Write Your Feedback'
                 />
-
-                <button onClick={()=> setOpenFeedBackModal(false)} className='border-none mt-10 font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Submit</button>
+                <button 
+                    onClick={()=> handleFeedback(user)} 
+                    className='border-none mt-10 font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'
+                >
+                    {isLoading ? "Loading..." : "Submit"}
+                </button>
             </div>
         </div>
     )

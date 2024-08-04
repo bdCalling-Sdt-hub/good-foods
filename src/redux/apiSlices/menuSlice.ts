@@ -15,8 +15,7 @@ const menuSlice = api.injectEndpoints({
             }
         }),
         menu: builder.query({
-            query: (value) => {
-                const {page, tab, meal} = value
+            query: ({page, tab, meal}) => {
                 const params = new URLSearchParams();
                 if(page) params.append("page", page);
                 if(tab) params.append("menu", tab);

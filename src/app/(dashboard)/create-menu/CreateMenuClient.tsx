@@ -1,12 +1,35 @@
 "use client";
 import Heading from '@/components/shared/Heading'
+import { useCreateMenuMutation } from '@/redux/apiSlices/menuSlice';
 import { Button, Form, Input, Select, Upload } from 'antd'
 import Link from 'next/link';
 import React from 'react';
+import toast from 'react-hot-toast';
 import { GrDocumentUpload } from 'react-icons/gr';
 import { MdArrowBackIos } from "react-icons/md";
 
 const CreateMenuClient = () => {
+    const [createMenu, {isLoading}] = useCreateMenuMutation();
+    const [form] = Form.useForm();
+
+    form.setFieldsValue({});
+
+    const handleSubmit=async (values: any)=>{
+        try {
+            await createMenu({ ...values }).unwrap().then((result)=>{
+                if (result?.success) {
+                    form.resetFields()
+                    toast.success(result.message);
+                    form.resetFields();
+                }
+            });
+            
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
+    }
+
+
     return (
         <div>
             <div className='flex items-center gap-6 my-6 px-6'>
@@ -16,7 +39,7 @@ const CreateMenuClient = () => {
                 <Heading name='Add Food menu' style='font-medium text-[18px] leading-[24px] text-[#333333]' />
             </div>
 
-            <Form className='grid grid-cols-12 gap-6 px-6 pb-8' layout='vertical'>
+            <Form onFinish={handleSubmit} className='grid grid-cols-12 gap-6 px-6 pb-8' layout='vertical'>
                 <Form.Item
                     style={{marginBottom: 0}}
                     className='col-span-6'
@@ -35,17 +58,17 @@ const CreateMenuClient = () => {
                         }}
                         placeholder="Select Any Menu"
                     >
-                        <Select.Option value="">Meal</Select.Option>
-                        <Select.Option value="">Meal</Select.Option>
-                        <Select.Option value="">Meal</Select.Option>
-                        <Select.Option value="">Meal</Select.Option>
+                        <Select.Option value="Full Menus">Full Menus</Select.Option>
+                        <Select.Option value="Entree">Entree</Select.Option>
+                        <Select.Option value="Breakfast">Breakfast</Select.Option>
+                        <Select.Option value="Snacks">Snacks</Select.Option>
                     </Select>
                 </Form.Item>
 
                 <Form.Item
                     style={{marginBottom: 0}}
                     className='col-span-6'
-                    name={"meal"}
+                    name={"mealPlan"}
                     label={<p className='font-medium text-[14px] leading-5 text-[#636363]'>Meal Plan</p>}
                     rules={[
                         {
@@ -60,10 +83,12 @@ const CreateMenuClient = () => {
                         }}
                         placeholder="Select Any Meal"
                     >
-                        <Select.Option value="">Meal</Select.Option>
-                        <Select.Option value="">Meal</Select.Option>
-                        <Select.Option value="">Meal</Select.Option>
-                        <Select.Option value="">Meal</Select.Option>
+                        <Select.Option value="Small Meal">Small Meal</Select.Option>
+                        <Select.Option value="Small Paleo Meal">Small Paleo Meal</Select.Option>
+                        <Select.Option value="Medium Meal">Medium Meal</Select.Option>
+                        <Select.Option value="Medium Paleo Meal">Medium Paleo Meal</Select.Option>
+                        <Select.Option value="Large Meal">Large Meal</Select.Option>
+                        <Select.Option value="Large Paleo Meal">Large Paleo Meal</Select.Option>
                     </Select>
                 </Form.Item>
 
@@ -166,7 +191,7 @@ const CreateMenuClient = () => {
                 <Form.Item
                     style={{marginBottom: 0}}
                     className='col-span-4'
-                    name={"carbon"}
+                    name={"carbs"}
                     label={<p className='font-medium text-[14px] leading-5 text-[#636363]'>Carbons</p>}
                     rules={[
                         {
@@ -239,7 +264,7 @@ const CreateMenuClient = () => {
                 <Form.Item
                     style={{marginBottom: 0}}
                     className='col-span-12'
-                    name={"ingredients"}
+                    name={"ingredient"}
                     label={<p className='font-medium text-[14px] leading-5 text-[#636363]'>Ingredients</p>}
                     rules={[
                         {
