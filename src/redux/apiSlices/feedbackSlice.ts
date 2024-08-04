@@ -6,7 +6,7 @@ const feedbackSlice = api.injectEndpoints({
             query: (data) => {
                 return{
                     method: "POST",
-                    url: "/user",
+                    url: "/feedback",
                     body: data,
                     headers:{
                         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
@@ -15,12 +15,12 @@ const feedbackSlice = api.injectEndpoints({
             }
         }),
         getFeedback: builder.query({
-            query: (filter) => {
+            query: (page) => {
                 const params = new URLSearchParams();
-                if(filter) params.append("category", filter);
+                if(page) params.append("page", page);
                 return{
                     method: "GET",
-                    url: `/user/profile?${params.toString()}`,
+                    url: `/feedback/publish?${params.toString()}`,
                 }
             }
         }),
