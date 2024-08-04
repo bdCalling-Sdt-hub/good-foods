@@ -262,7 +262,7 @@ const MealClient = () => {
                                             <Image
                                                 alt='Product'
                                                 src={`${imageUrl}${product?.image}`}
-                                                width={90}
+                                                width={60}
                                                 height={60}
                                             />
                                             <div className='grid-cols-1 grid gap-0 sm:gap-4'>

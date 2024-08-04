@@ -66,8 +66,8 @@ const NewProduct = () => {
         ]
     };
 
-    const {data: products} = useMenuQuery(undefined);
-
+    const {data: products} = useMenuQuery({});
+    console.log(products)
     
     return (
             <div className='my-16'>

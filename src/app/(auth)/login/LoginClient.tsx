@@ -3,7 +3,7 @@ import Heading from '@/components/shared/Heading';
 import { Button, Checkbox, Form, Input } from 'antd'
 import Link from 'next/link';
 import React from 'react';
-import { useLoginMutation } from "@/redux/apiSlices/authSlice"
+import { useLoginMutation, useProfileQuery } from "@/redux/apiSlices/authSlice"
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
@@ -12,6 +12,7 @@ const LoginClient = () => {
     const router = useRouter();
     form.setFieldsValue(undefined)
     const [login, { isLoading }] = useLoginMutation();
+    const { refetch } = useProfileQuery(undefined);
 
     const handleSubmit = async (values: any) => {
         try {
@@ -20,6 +21,7 @@ const LoginClient = () => {
                     form.resetFields()
                     toast.success(result.message);
                     localStorage.setItem("token", JSON.stringify(result?.data));
+                    refetch()
                     router.push('/');
                 }
             });
