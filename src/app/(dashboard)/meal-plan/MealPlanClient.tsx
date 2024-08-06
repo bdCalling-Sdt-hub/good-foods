@@ -7,15 +7,15 @@ import { GoSearch } from "react-icons/go";
 import { IoIosInformationCircle } from "react-icons/io";
 import Catering from "@/assets/catering.png";
 import Image from 'next/image';
-import { useMenuTransactionQuery, useMealTransactionUpdateMutation } from '@/redux/apiSlices/transactionSlice';
+import { useMealTransactionQuery, useMealTransactionUpdateMutation } from '@/redux/apiSlices/transactionSlice';
 import toast from 'react-hot-toast';
 
-const TransactionsClient = () => {
+const MealPlanClient = () => {
     const [keyword, setKeyword] = useState("");
-    const [page, setPage] = useState(1)
-    const {data: menus, refetch} = useMenuTransactionQuery({page: page});
-    const [menuTransactionUpdate]= useMealTransactionUpdateMutation();
-
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 10; 
+    const [mealTransactionUpdate] = useMealTransactionUpdateMutation();
+    const {data: meals, refetch} = useMealTransactionQuery({page: page});
 
     const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
         if (type === 'prev') {
@@ -29,7 +29,7 @@ const TransactionsClient = () => {
 
     const handleStatusChange=async(id: string)=>{
         try {
-            await menuTransactionUpdate(id).unwrap().then((result)=>{
+            await mealTransactionUpdate(id).unwrap().then((result)=>{
                 if (result?.success) {
                     toast.success(result.message);
                     refetch()
@@ -40,10 +40,12 @@ const TransactionsClient = () => {
             toast.error(error.data.message || "An unexpected server error occurred");
         }
     }
+
+
     return (
         <div className=''>
             <div className='flex items-center justify-between p-4'>
-                <Heading name='Transaction' style='font-medium text-[18px] leading-[24px] text-[#333333] text-center' />
+                <Heading name='Meal Plan Transaction' style='font-medium text-[18px] leading-[24px] text-[#333333] text-center' />
                 <Input
                     prefix={<GoSearch size={18} color='#5C5C5C' />}
                     placeholder='Search...'
@@ -65,7 +67,7 @@ const TransactionsClient = () => {
             <table className="w-full rounded-[5px] rounded-table">
                 <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                     {
-                        ["S.no ", "Name", "Order Type", "OrderDate", "Delivery date", "Price", "Action"].map((item, index)=>
+                        ["S.no ", "Name", "Order Type", "OrderDate", "Quantity", "Price", "Action"].map((item, index)=>
                         <th key={index} className={`text-[18px] text-center py-2 leading-7 text-[#3E3E3E]`}>
                             {item}
                         </th>
@@ -78,7 +80,7 @@ const TransactionsClient = () => {
                         <React.Fragment key={index}>
                             <div style={{marginTop: '8px'}}></div>
                             <tr>
-                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>{index + 1}</td>
+                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>{((page - 1) * itemsPerPage) + index + 1}</td>
                                 <td className='h-[50px] flex items-center justify-center gap-3 text-[16px] leading-5 text-[#636363] font-normal'>
                                     <Image
                                         alt="Catering"
@@ -101,6 +103,8 @@ const TransactionsClient = () => {
                                             
                                         }}
                                         defaultValue={"Pending"}
+                                        value={item?.status}
+                                        onChange={()=>handleStatusChange(item?._id)}
                                     >
                                         <Select.Option value="pending">Pending</Select.Option>
                                         <Select.Option value="process">Process</Select.Option>
@@ -115,10 +119,10 @@ const TransactionsClient = () => {
             </table>
 
             <div className='my-6 flex items-center justify-center w-full'>
-                <Pagination onChange={(page)=> setPage(page)} showSizeChanger={false} total={30} itemRender={itemRender} />
+                <Pagination showSizeChanger={false} total={30} itemRender={itemRender} />
             </div>
         </div>
     )
 }
 
-export default TransactionsClient
+export default MealPlanClient

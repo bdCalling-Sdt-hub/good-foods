@@ -24,19 +24,23 @@ const DashboardLayout = ({children}: {children: React.ReactNode}) => {
                 <div className='col-span-2 h-full pt-6'>
                     <ul className='grid grid-cols-1 gap-3'>
                         <Link href={"/transactions"}>
-                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><GrTransaction size={24}/> Transactions</li>
+                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><GrTransaction size={24}/>Menu Transactions</li>
+                        </Link>
+                        <Link href={"/meal-plan"}>
+                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><GrTransaction size={24}/>Meal Transactions</li>
                         </Link>
                         <Link href={"/menu"}>
-                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><RxDashboard size={24}/> Manage Menu</li>
+                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><RxDashboard size={24}/> Menu</li>
                         </Link>
+                        
                         <Link href={"/testimonial"}>
-                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><VscFeedback size={24}/> Manage Testimonial</li>
+                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><VscFeedback size={24}/> Testimonial</li>
                         </Link>
                     </ul>
                 </div>
 
                 <div className='col-span-10 bg-[#F6F6F6] p-6'>
-                    <div className='h-[calc(100vh-115px)] overflow-y-scroll bg-white rounded-lg'>
+                    <div className='h-[calc(100vh-115px)] overflow-y-auto bg-white rounded-lg'>
                         {children}
                     </div>
                 </div>

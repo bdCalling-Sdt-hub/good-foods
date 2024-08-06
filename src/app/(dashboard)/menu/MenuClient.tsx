@@ -11,9 +11,10 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import Catering from "@/assets/catering.png";
 import Image from 'next/image';
-import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
+import { useDeleteMenuMutation, useMenuQuery } from '@/redux/apiSlices/menuSlice';
 import { imageUrl } from '@/redux/api/baseApi';
 import { RefreshCcw } from 'lucide-react';
+import toast from 'react-hot-toast';
 const {Option} = Select;
 
 const MenuClient = () => {
@@ -22,7 +23,8 @@ const MenuClient = () => {
     const [menu, setMenu] = useState(null); // Set initial state to null
     const [meal, setMeal] = useState(null);
     const itemsPerPage = 10; // Adjust this value based on your pagination setup
-    const {data: menus} = useMenuQuery({page: page, searchTerm: keyword, tab: menu, meal: meal});
+    const {data: menus, refetch} = useMenuQuery({page: page, searchTerm: keyword, tab: menu, meal: meal});
+    const [deleteMenu] = useDeleteMenuMutation();
 
     const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
         if (type === 'prev') {
@@ -39,6 +41,22 @@ const MenuClient = () => {
         setMenu(null);
         setMeal(null);
     };
+
+    const handleDelete=async(id: string)=>{
+
+        try {
+            await deleteMenu(id).unwrap().then((result)=>{
+                if (result?.success) {
+                    toast.success(result.message);
+                    refetch()
+                }
+            });
+            
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
+
+    }
     return (
         <div className=''>
             <div className='flex items-center justify-between p-4'>
@@ -155,7 +173,7 @@ const MenuClient = () => {
                                 <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.mealPlan}</td>
                                 <td className='h-[50px] flex items-center gap-3 text-[12px] leading-5 text-[#636363] font-normal'>
                                     <CiEdit size={24} color='#735571' />
-                                    <MdDelete size={24} color='#BF757B' />
+                                    <MdDelete style={{cursor: "pointer"}} onClick={()=>handleDelete(item?._id)} size={24} color='#BF757B' />
                                 </td>
                             </tr>
                         </React.Fragment>

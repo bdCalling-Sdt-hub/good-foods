@@ -53,7 +53,10 @@ const menuSlice = api.injectEndpoints({
             query: (id) => {
                 return{
                     method: "DELETE",
-                    url: `/user/profile/${id}`
+                    url: `/products/${id}`,
+                    headers:{
+                        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
+                    }
                 }
             }
         }),
