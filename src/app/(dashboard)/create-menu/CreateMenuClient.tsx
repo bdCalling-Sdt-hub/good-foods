@@ -15,16 +15,22 @@ const CreateMenuClient = () => {
     form.setFieldsValue({});
 
     const handleSubmit=async (values: any)=>{
+        const formData = new FormData();
+        const {image, ...othersData} = values;
+
+        formData.append("image", image);
+        formData.append("data", JSON.stringify(othersData));
+
         try {
-            await createMenu({ ...values }).unwrap().then((result)=>{
+            await createMenu(formData).unwrap().then((result)=>{
                 if (result?.success) {
-                    form.resetFields()
                     toast.success(result.message);
                     form.resetFields();
                 }
             });
             
         } catch (error: any) {
+            console.log(error)
             toast.error(error.data.message || "An unexpected server error occurred");
         }
     }
@@ -39,7 +45,7 @@ const CreateMenuClient = () => {
                 <Heading name='Add Food menu' style='font-medium text-[18px] leading-[24px] text-[#333333]' />
             </div>
 
-            <Form onFinish={handleSubmit} className='grid grid-cols-12 gap-6 px-6 pb-8' layout='vertical'>
+            <Form form={form} onFinish={handleSubmit} className='grid grid-cols-12 gap-6 px-6 pb-8' layout='vertical'>
                 <Form.Item
                     style={{marginBottom: 0}}
                     className='col-span-6'
@@ -154,6 +160,7 @@ const CreateMenuClient = () => {
                 >
                     <Input
                         placeholder='Price...'
+                        type='number'
                         style={{
                             height: 42,
                             background: "transparent",
@@ -177,6 +184,7 @@ const CreateMenuClient = () => {
                     ]}
                 >
                     <Input
+                        type='number'
                         placeholder='Protein...'
                         style={{
                             height: 42,
@@ -201,6 +209,7 @@ const CreateMenuClient = () => {
                     ]}
                 >
                     <Input
+                        type='number'
                         placeholder='Carbons'
                         style={{
                             height: 42,
@@ -226,6 +235,7 @@ const CreateMenuClient = () => {
                 >
                     <Input
                         placeholder='Fat'
+                        type='number'
                         style={{
                             height: 42,
                             background: "transparent",
@@ -324,7 +334,7 @@ const CreateMenuClient = () => {
                             height: 42
                         }}
                     >
-                        Submit Menu
+                        { isLoading? "Submitting..." : "Submit" }
                     </Button>
                 </Form.Item>
 
