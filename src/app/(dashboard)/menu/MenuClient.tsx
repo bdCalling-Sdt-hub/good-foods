@@ -11,10 +11,18 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import Catering from "@/assets/catering.png";
 import Image from 'next/image';
+import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
+import { imageUrl } from '@/redux/api/baseApi';
+import { RefreshCcw } from 'lucide-react';
 const {Option} = Select;
 
 const MenuClient = () => {
     const [keyword, setKeyword] = useState("");
+    const [page, setPage] = useState(1);
+    const [menu, setMenu] = useState(null); // Set initial state to null
+    const [meal, setMeal] = useState(null);
+    const itemsPerPage = 10; // Adjust this value based on your pagination setup
+    const {data: menus} = useMenuQuery({page: page, searchTerm: keyword, tab: menu, meal: meal});
 
     const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
         if (type === 'prev') {
@@ -24,6 +32,12 @@ const MenuClient = () => {
             return <a>Next</a>;
         }
         return originalElement;
+    };
+
+    const handleReset = () => {
+        setKeyword("");
+        setMenu(null);
+        setMeal(null);
     };
     return (
         <div className=''>
@@ -49,32 +63,40 @@ const MenuClient = () => {
                     />
                     <Select
                         style={{
-                            width: "120px",
+                            width: 150,
                             height: 42,
                             background: "transparent",
                             border: "none",
                             
                         }}
-                        defaultValue={"Our Meal"}
+                        placeholder={<p className='text-black'>Select Menu</p>}
+                        value={menu}
+                        onChange={(value) => setMenu(value)}
                     >
-                        <Select.Option value="pending">Our Meal</Select.Option>
-                        <Select.Option value="process">Our Meal</Select.Option>
-                        <Select.Option value="delivered">Our Meal</Select.Option>
+                        <Select.Option value="Full Menus">Full Menus</Select.Option>
+                        <Select.Option value="Entree">Entree</Select.Option>
+                        <Select.Option value="Breakfast">Breakfast</Select.Option>
+                        <Select.Option value="Snacks">Snacks</Select.Option>
                     </Select>
 
                     <Select
                         style={{
-                            width: "120px",
+                            width: 200,
                             height: 42,
                             background: "transparent",
                             border: "none",
                             
                         }}
-                        defaultValue={"Meal Plan"}
+                        placeholder={<p className='text-black'>Select Meal</p>}
+                        value={meal}
+                        onChange={(value) => setMeal(value)}
                     >
-                        <Select.Option value="pending">Small Meal</Select.Option>
-                        <Select.Option value="process">Large Meal</Select.Option>
-                        <Select.Option value="delivered">Extra Large</Select.Option>
+                        <Select.Option value="Small Meal">Small Meal</Select.Option>
+                        <Select.Option value="Small Paleo Meal">Small Paleo Meal</Select.Option>
+                        <Select.Option value="Medium Meal">Medium Meal</Select.Option>
+                        <Select.Option value="Medium Paleo Meal">Medium Paleo Meal</Select.Option>
+                        <Select.Option value="Large Meal">Large Meal</Select.Option>
+                        <Select.Option value="Large Paleo Meal">Large Paleo Meal</Select.Option>
                     </Select>
 
                     <Link href={"/create-menu"}>
@@ -90,6 +112,17 @@ const MenuClient = () => {
                             Create Menu
                         </Button>
                     </Link>
+                    <Button 
+                        onClick={handleReset}
+                        style={{
+                            background: "#6EA963",
+                            color: "white",
+                            border: "none",
+                            height: 42,
+                            width: 42
+                        }}
+                        icon={<RefreshCcw size={24} />}
+                    />
                 </div>
             </div>
             
@@ -105,21 +138,21 @@ const MenuClient = () => {
                 </tr>
 
                 {
-                    [...Array(8)]?.map((item, index)=>
+                    menus?.data?.map((item:any, index:number)=>
                         <React.Fragment key={index}>
                             <div style={{marginTop: '8px'}}></div>
                             <tr>
-                                <td className='h-[50px] pl-4 text-[15px] leading-5 text-[#636363] font-normal'>{index + 1}</td>
+                                <td className='h-[50px] pl-4 text-[15px] leading-5 text-[#636363] font-normal'>{((page - 1) * itemsPerPage) + index + 1}</td>
                                 <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>
                                     <Image
                                         alt="Catering"
-                                        src={Catering}
+                                        src={`${imageUrl}${item?.image}`}
                                         width={48}
                                         height={48}
                                     />
                                 </td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>Small Meal</td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>Breakfast</td>
+                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.menu}</td>
+                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.mealPlan}</td>
                                 <td className='h-[50px] flex items-center gap-3 text-[12px] leading-5 text-[#636363] font-normal'>
                                     <CiEdit size={24} color='#735571' />
                                     <MdDelete size={24} color='#BF757B' />
@@ -131,7 +164,7 @@ const MenuClient = () => {
             </table>
 
             <div className='my-6 flex items-center justify-center w-full'>
-                <Pagination showSizeChanger={false} total={30} itemRender={itemRender} />
+                <Pagination showSizeChanger={false} total={menus?.meta?.total} onChange={(e)=>setPage(e)} itemRender={itemRender} />
             </div>
         </div>
     )
