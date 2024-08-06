@@ -8,6 +8,7 @@ import { UserProvider } from '@/provider/User';
 const ClientProvider = ({ children }: {children: ReactNode}) => {
     return (
         <Provider store={store}>
+            
             <UserProvider>
                 {children}
             </UserProvider>

@@ -1,14 +1,7 @@
 "use client";
 import Heading from '@/components/shared/Heading';
-import { Button, Input, Pagination, PaginationProps, Select } from 'antd';
-import Link from 'next/link';
+import { Pagination, PaginationProps, Select } from 'antd';
 import React, { useState } from 'react';
-import { BiPlus } from 'react-icons/bi';
-import { CgClose } from 'react-icons/cg';
-import { GoSearch } from "react-icons/go";
-import { MdDelete } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
-import Catering from "@/assets/catering.png";
 import Image from 'next/image';
 import { IoIosInformationCircle } from "react-icons/io";
 import Modal from '@/components/shared/Modal';

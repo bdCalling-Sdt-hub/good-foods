@@ -2,11 +2,11 @@ import { api } from "../api/baseApi";
 
 const orderSlice = api.injectEndpoints({
     endpoints: (builder) => ({
-        order: builder.mutation({
+        mealOrder: builder.mutation({
             query: (data) => {
                 return{
                     method: "POST",
-                    url: "/order",
+                    url: "/meal-plan-order",
                     body: data,
                     headers:{
                         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
@@ -49,4 +49,4 @@ const orderSlice = api.injectEndpoints({
     })
 });
 
-export const { useGetOrderListQuery, useGetOrderQuery, useOrderMutation, useMakeCompleteMutation } = orderSlice;
+export const { useGetOrderListQuery, useGetOrderQuery, useMealOrderMutation, useMakeCompleteMutation } = orderSlice;

@@ -14,12 +14,12 @@ import { usePutFeedbackMutation } from '@/redux/apiSlices/feedbackSlice';
 import toast from 'react-hot-toast';
 
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
     const [open, setOpen] = useState(false);
     const [toggling, setToggling] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openFeedBackModal, setOpenFeedBackModal] = useState(false);
-    const {user} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const [feedback, setFeedback] = useState("")
     const [putFeedback, {isLoading}] = usePutFeedbackMutation()
     
@@ -111,6 +111,11 @@ const Navbar = () => {
             </div>
         </div>
     )
+
+    const handleLogout=()=>{
+        setUser(null);
+        setOpen(false)
+    }
     
     return (
         <div className='fixed z-10 top-0 w-full left-0 bg-white border-b-[1px] border-[#00000] border-opacity-[40%]'>
@@ -204,7 +209,7 @@ const Navbar = () => {
                                 <Link  href={"/transactions"}>
                                     <li onClick={()=>setOpen(false)} className='text-[#656565] transition-all duration-100 text-center hover:bg-primary hover:text-white text-[14px] leading-6 font-normal py-2'>Dashboard</li>
                                 </Link>
-                                <li onClick={()=>setOpen(false)} className='text-[#656565] cursor-pointer transition-all duration-100 text-center rounded-b-sm hover:bg-primary hover:text-white  text-[14px] leading-6 font-normal py-2'>Log Out</li>
+                                <li onClick={handleLogout} className='text-[#656565] cursor-pointer transition-all duration-100 text-center rounded-b-sm hover:bg-primary hover:text-white  text-[14px] leading-6 font-normal py-2'>Log Out</li>
                             </ul>
                         </div>
                     }

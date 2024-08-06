@@ -15,6 +15,7 @@ import { BiCloset, BiMinus, BiPlus } from 'react-icons/bi'
 import { GrClose } from 'react-icons/gr'
 import Heading from '@/components/shared/Heading'
 import Modal from '@/components/shared/Modal'
+import { useCart } from '@/provider/Cart'
 
 const HomeClient = () => {
     const [open, setOpen] = useState(false);
@@ -168,6 +169,20 @@ const HomeClient = () => {
             </div>
         </div>
     )
+
+    const { state: { items }, dispatch } = useCart();
+
+    const handleIncreaseQuantity = (id: string) => {
+        dispatch({ type: 'INCREASE_QUANTITY', id });
+    };
+
+    const handleDecreaseQuantity = (id: string) => {
+        dispatch({ type: 'DECREASE_QUANTITY', id });
+    };
+
+    const handleRemoveFromCart = (id: string) => {
+        dispatch({ type: 'REMOVE_ITEM', id });
+    };
     return (
 
         <div className=' mt-[100px] md:mt-[80px]'>

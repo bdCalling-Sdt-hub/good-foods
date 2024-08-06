@@ -9,10 +9,12 @@ import Catering from "@/assets/catering.png";
 import Image from 'next/image';
 import { useMenuTransactionQuery, useMealTransactionUpdateMutation } from '@/redux/apiSlices/transactionSlice';
 import toast from 'react-hot-toast';
+import Modal from '@/components/shared/Modal';
 
 const TransactionsClient = () => {
     const [keyword, setKeyword] = useState("");
     const [page, setPage] = useState(1)
+    const [open, setOpen] = useState(false);
     const {data: menus, refetch} = useMenuTransactionQuery({page: page});
     const [menuTransactionUpdate]= useMealTransactionUpdateMutation();
 
@@ -40,6 +42,12 @@ const TransactionsClient = () => {
             toast.error(error.data.message || "An unexpected server error occurred");
         }
     }
+
+    const body=(
+        <div>
+            
+        </div>
+    )
     return (
         <div className=''>
             <div className='flex items-center justify-between p-4'>
@@ -100,13 +108,14 @@ const TransactionsClient = () => {
                                             border: "none",
                                             
                                         }}
-                                        defaultValue={"Pending"}
+                                        value={item?.status}
+                                        onChange={()=>handleStatusChange(item?._id)}
                                     >
                                         <Select.Option value="pending">Pending</Select.Option>
                                         <Select.Option value="process">Process</Select.Option>
                                         <Select.Option value="delivered">Delivered</Select.Option>
                                     </Select>
-                                    <IoIosInformationCircle size={30} color='#735571' />
+                                    <IoIosInformationCircle className='cursor-pointer' onClick={()=>setOpen(true)} size={30} color='#735571' />
                                 </td>
                             </tr>
                         </React.Fragment>
@@ -117,6 +126,13 @@ const TransactionsClient = () => {
             <div className='my-6 flex items-center justify-center w-full'>
                 <Pagination onChange={(page)=> setPage(page)} showSizeChanger={false} total={30} itemRender={itemRender} />
             </div>
+
+            <Modal
+                title='Menu Transaction Details'
+                open={open}
+                setOpen={setOpen}
+                body={body}
+            />
         </div>
     )
 }

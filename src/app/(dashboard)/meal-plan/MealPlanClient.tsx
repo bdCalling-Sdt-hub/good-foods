@@ -9,10 +9,12 @@ import Catering from "@/assets/catering.png";
 import Image from 'next/image';
 import { useMealTransactionQuery, useMealTransactionUpdateMutation } from '@/redux/apiSlices/transactionSlice';
 import toast from 'react-hot-toast';
+import Modal from '@/components/shared/Modal';
 
 const MealPlanClient = () => {
     const [keyword, setKeyword] = useState("");
     const [page, setPage] = useState(1);
+    const [open, setOpen] = useState(false);
     const itemsPerPage = 10; 
     const [mealTransactionUpdate] = useMealTransactionUpdateMutation();
     const {data: meals, refetch} = useMealTransactionQuery({page: page});
@@ -40,6 +42,12 @@ const MealPlanClient = () => {
             toast.error(error.data.message || "An unexpected server error occurred");
         }
     }
+
+    const body=(
+        <div>
+            
+        </div>
+    )
 
 
     return (
@@ -110,7 +118,7 @@ const MealPlanClient = () => {
                                         <Select.Option value="process">Process</Select.Option>
                                         <Select.Option value="delivered">Delivered</Select.Option>
                                     </Select>
-                                    <IoIosInformationCircle size={30} color='#735571' />
+                                    <IoIosInformationCircle onClick={()=>setOpen(true)} className='cursor-pointer' size={30} color='#735571' />
                                 </td>
                             </tr>
                         </React.Fragment>
@@ -121,6 +129,13 @@ const MealPlanClient = () => {
             <div className='my-6 flex items-center justify-center w-full'>
                 <Pagination showSizeChanger={false} total={30} itemRender={itemRender} />
             </div>
+
+            <Modal
+                title='Meal Transaction Details'
+                open={open}
+                setOpen={setOpen}
+                body={body}
+            />
         </div>
     )
 }

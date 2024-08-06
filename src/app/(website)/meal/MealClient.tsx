@@ -8,6 +8,8 @@ import Modal from '@/components/shared/Modal';
 import { Checkbox, DatePicker, Form, Input } from 'antd';
 import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
 import { imageUrl } from '@/redux/api/baseApi';
+import { useMealOrderMutation } from '@/redux/apiSlices/orderSlice';
+import toast from 'react-hot-toast';
 
 const MealClient = () => {
     const [open, setOpen] = useState(false)
@@ -15,6 +17,7 @@ const MealClient = () => {
     const [count, setCount] = useState(1);
     const [tabItem, setTabItem] = useState<number | null>(0);
     const [total, setTotal] = useState(0);
+    const [mealOrder, {isLoading: isOrderLoading}] =useMealOrderMutation();
 
     useEffect(() => {
         const initialTab = new URLSearchParams(window.location.search).get('tab') || "Small Meal";
@@ -36,6 +39,42 @@ const MealClient = () => {
         indexParams.set('index', index);
         window.history.pushState(null, "", `?${indexParams.toString()}`);
     }
+
+    
+
+    const {data: products, isLoading} = useMenuQuery({ meal:tab});
+    
+    useEffect(() => {
+        const calculatedTotal = products?.data?.reduce((acc: number, rev: any) => acc + Number(rev?.price), 0) * count;
+        setTotal(calculatedTotal);
+    }, [count, products, tab]);
+
+
+    if (isLoading) return <div>Loading...</div>;
+    const productList = products?.data?.map((item:any)=> ({product: item?._id}));
+    
+    
+    const handelOrder=async()=>{
+        const data = {
+            quantity: count,
+            mealPlanType: tab,
+            price: total,
+            totalItems: products?.data?.length,
+            products: productList
+        }
+        try {
+            await mealOrder(data).unwrap().then((result)=>{
+                if (result?.success) {
+                    toast.success(result.message);
+                    setOpen(false);
+                }
+            });
+            
+        } catch (error: any) {
+            toast.error(error.data.message || "An unexpected server error occurred");
+        }
+    }
+
 
     const body = (
         <div className='grid grid-cols-12 rounded-lg'>
@@ -178,24 +217,12 @@ const MealClient = () => {
                     </div>
                     <Checkbox className="text-[#818181] text-[12px] leading-[24px] font-medium">I agree to <span className='text-[#F52B2E]'>Terms & Conditions, Privacy & Policy and Refund Policy</span></Checkbox>
                         
-                    <button onClick={()=>setOpen(false)} className='bg-primary text-white rounded-lg h-[48px] w-full font-normal text-[16px] leading-5'>Confirm Payment</button>
+                    <button onClick={handelOrder} className='bg-primary text-white rounded-lg h-[48px] w-full font-normal text-[16px] leading-5'>Confirm Payment</button>
                 </div>
 
             </div>
         </div>
     )
-
-    const {data: products, isLoading} = useMenuQuery({ meal:tab});
-    
-    useEffect(() => {
-        const calculatedTotal = products?.data?.reduce((acc: number, rev: any) => acc + Number(rev?.price), 0) * count;
-        setTotal(calculatedTotal);
-    }, [count, products, tab]);
-
-
-    if (isLoading) return <div>Loading...</div>;
-    
-
 
 
     return (
