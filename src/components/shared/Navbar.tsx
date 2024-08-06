@@ -178,6 +178,7 @@ const Navbar = () => {
                                 alt='profile'
                                 width={24}
                                 height={24}
+                                style={{borderRadius: "100%"}}
                             />
                             :
                             <AiOutlineUser size={24} color='#6EA963'/>
