@@ -6,6 +6,8 @@ import { GrTransaction } from "react-icons/gr";
 import { RxDashboard } from "react-icons/rx";
 import { VscFeedback } from "react-icons/vsc";
 import Link from 'next/link';
+import { CiDiscount1 } from 'react-icons/ci';
+import { RiCoupon3Line } from 'react-icons/ri';
 
 const DashboardLayout = ({children}: {children: React.ReactNode}) => {
     return (
@@ -35,6 +37,10 @@ const DashboardLayout = ({children}: {children: React.ReactNode}) => {
                         
                         <Link href={"/testimonial"}>
                             <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><VscFeedback size={24}/> Testimonial</li>
+                        </Link>
+
+                        <Link href={"/coupon"}>
+                            <li className='pl-6 bg-primary text-[#F4F4F4] h-[48px] text-[16px] leading-6 font-normal flex items-center gap-6'><RiCoupon3Line size={24}/> Coupon</li>
                         </Link>
                     </ul>
                 </div>

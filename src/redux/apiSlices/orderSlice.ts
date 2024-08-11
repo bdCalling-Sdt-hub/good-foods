@@ -14,6 +14,18 @@ const orderSlice = api.injectEndpoints({
                 }
             }
         }),
+        menuOrder: builder.mutation({
+            query: (data) => {
+                return{
+                    method: "POST",
+                    url: "/order",
+                    body: data,
+                    headers:{
+                        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
+                    }
+                }
+            }
+        }),
         getOrderList: builder.query({
             query: ({page, search}) => {
                 const params = new URLSearchParams();
@@ -49,4 +61,4 @@ const orderSlice = api.injectEndpoints({
     })
 });
 
-export const { useGetOrderListQuery, useGetOrderQuery, useMealOrderMutation, useMakeCompleteMutation } = orderSlice;
+export const { useGetOrderListQuery, useMenuOrderMutation, useGetOrderQuery, useMealOrderMutation, useMakeCompleteMutation } = orderSlice;

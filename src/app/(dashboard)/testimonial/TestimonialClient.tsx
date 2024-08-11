@@ -11,10 +11,10 @@ import toast from 'react-hot-toast';
 import { imageUrl } from '@/redux/api/baseApi';
 
 const TestimonialClient = () => {
-    const [keyword, setKeyword] = useState("");
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(1)
-    const {data: reviews, refetch} = useFeedbackQuery({page: page});
+    const {data: reviews, refetch} = useFeedbackQuery(page);
+    console.log(reviews)
     const [publishFeedback] = usePublishFeedbackMutation();
     const [value, setValue] = useState<Record<string, string>>({})
 
@@ -97,7 +97,13 @@ const TestimonialClient = () => {
                                 <td className='h-[50px] flex items-center gap-1 text-[15px] leading-5 text-[#636363] font-normal'>
                                     <Image
                                         alt="Catering"
-                                        src={ item?.user?.profile?.startsWith("https") ? item?.user?.profile : `${imageUrl}${item?.user?.profile}` }
+                                        src={ 
+                                            item?.user?.profile?.startsWith("https") 
+                                            ? 
+                                            item?.user?.profile 
+                                            : 
+                                            `${imageUrl}${item?.user?.profile}` 
+                                        }
                                         width={48}
                                         height={48}
                                     />

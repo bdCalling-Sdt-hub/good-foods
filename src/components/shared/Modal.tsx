@@ -7,11 +7,15 @@ interface IModalProps{
     width?: number;
     setOpen:( open: boolean )=> void;
     body: React.ReactElement;
+    form?: any;
 }
 
-const Modal:React.FC<IModalProps> = ({title, open, body, width, setOpen}) => {
+const Modal:React.FC<IModalProps> = ({title, open, body, width, setOpen, form}) => {
     const handleClose=()=>{
         setOpen(false)
+        if(form){
+            form.resetFields();
+        }
     }
     return (
         <AntModal

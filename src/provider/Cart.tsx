@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 
 interface CartItem {
     id: string;
     name: string;
+    image: string;
     quantity: number;
+    price: number;
 }
 
 interface CartState {
@@ -14,7 +16,9 @@ type CartAction =
     | { type: 'ADD_ITEM'; item: CartItem }
     | { type: 'INCREASE_QUANTITY'; id: string }
     | { type: 'DECREASE_QUANTITY'; id: string }
-    | { type: 'REMOVE_ITEM'; id: string };
+    | { type: 'REMOVE_ITEM'; id: string }
+    | { type: 'INIT_CART'; items: CartItem[] }
+    | { type: 'CLEAR_CART' }; 
 
 const CartContext = createContext<{
     state: CartState;
@@ -65,6 +69,12 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
                 ...state,
                 items: state.items.filter(item => item.id !== action.id),
             };
+            
+        case 'CLEAR_CART':
+            return { ...state, items: [] };  // Clears the cart
+
+        case 'INIT_CART':
+            return { ...state, items: action.items };
 
         default:
             return state;
@@ -73,6 +83,25 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, { items: [] });
+
+    // Load the cart from localStorage when the component mounts
+    useEffect(() => {
+        const storedCart = localStorage.getItem('cart');
+        if (storedCart) {
+            const parsedCart = JSON.parse(storedCart);
+            if (Array.isArray(parsedCart) && parsedCart.length > 0) {
+                dispatch({ type: 'INIT_CART', items: parsedCart });
+            }
+        }
+    }, []);
+
+    // Save the cart to localStorage whenever it changes and has valid items
+    useEffect(() => {
+        const isValidCart = state.items.every(item => item.id && item.quantity > 0 && item.price > 0);
+        if (state.items.length > 0 && isValidCart) {
+            localStorage.setItem('cart', JSON.stringify(state.items));
+        }
+    }, [state.items]);
 
     return (
         <CartContext.Provider value={{ state, dispatch }}>

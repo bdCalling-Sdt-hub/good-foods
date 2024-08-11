@@ -27,7 +27,7 @@ const LoginClient = () => {
             });
             
         } catch (error: any) {
-            toast.error(error.data.message || "An unexpected server error occurred");
+            toast.error(error?.data?.message ? error?.data?.message : "An unexpected server error occurred");
         }
     };
 

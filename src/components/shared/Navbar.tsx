@@ -8,7 +8,7 @@ import { Menu } from 'lucide-react';
 import { Drawer, Input } from 'antd';
 import { X } from 'lucide-react';
 import Modal from './Modal';
-import { UserContext } from '@/provider/User';
+import { UserContext, useUser } from '@/provider/User';
 import { imageUrl } from '@/redux/api/baseApi';
 import { usePutFeedbackMutation } from '@/redux/apiSlices/feedbackSlice';
 import toast from 'react-hot-toast';
@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
     const [toggling, setToggling] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openFeedBackModal, setOpenFeedBackModal] = useState(false);
-    const {user, setUser} = useContext(UserContext);
+    const {user, setUser} = useUser() ?? {};
     const [feedback, setFeedback] = useState("")
     const [putFeedback, {isLoading}] = usePutFeedbackMutation()
     

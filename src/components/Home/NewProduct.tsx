@@ -8,8 +8,11 @@ import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
 import { imageUrl } from '@/redux/api/baseApi';
 import Link from 'next/link';
+import { useCart } from '@/provider/Cart';
 
 const NewProduct = () => {
+    const { dispatch } = useCart();
+
     const ArrowLeft = ({ currentSlide, slideCount, ...props }: CustomArrowProps) => (
         <button
             {...props}
@@ -67,6 +70,20 @@ const NewProduct = () => {
     };
 
     const {data: products} = useMenuQuery({});
+
+    const addToCart = (e:any, value:any) => {
+        e.preventDefault();
+        e.stopPropagation()
+
+        const product = {
+            id: value?._id,
+            name: value?.name,
+            image: value?.image,
+            quantity: 1,
+            price: Number(value?.price)
+        };
+        dispatch({ type: 'ADD_ITEM', item: product });
+    };
     
     return (
             <div className='my-16'>
@@ -96,7 +113,7 @@ const NewProduct = () => {
                                             }
                                             <p className='font-bold text-[18px] leading-7 text-[#5C5C5C]'>{product?.name}</p>
                                             <p className='font-semibold text-[16px] leading-5 text-[#735571] my-1'>${product?.price}</p>
-                                            <button className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Add to cart</button>
+                                            <button onClick={(e)=>addToCart(e, product)} className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'>Add to cart</button>
 
                                             <div className='flex items-center justify-center gap-3 my-3'>
                                                 <span className='font-medium text-[14px] leading-[18px] text-[#BF757B]'>Protein {product?.protein}g</span>

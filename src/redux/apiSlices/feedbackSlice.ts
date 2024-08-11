@@ -21,6 +21,9 @@ const feedbackSlice = api.injectEndpoints({
                 return{
                     method: "GET",
                     url: `/feedback/publish?${params.toString()}`,
+                    headers:{
+                        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token") as string)}`
+                    }
                 }
             }
         }),
