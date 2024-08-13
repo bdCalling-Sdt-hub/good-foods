@@ -167,32 +167,34 @@ const CouponClient = () => {
 
 
             <table className="w-full rounded-[5px]" style={{borderRadius: "6px 6px 0 0"}}>
-                <tr className="text-left w-full bg-[#FEE3B8] " style={{borderRadius: "6px 6px 0 0"}}>
+                <thead>
+                    <tr className="text-left w-full bg-[#FEE3B8] " style={{borderRadius: "6px 6px 0 0"}}>
+                        {
+                            ["S.no ", "Coupon Code", "Discount", "Validity Date","Action"].map((item, index)=>
+                            <th key={index} className={`text-[16px] text-center py-2 leading-7 text-[#3E3E3E]`}>
+                                {item}
+                            </th>
+                            )
+                        }
+                    </tr>
+                </thead>
+                <tbody>
                     {
-                        ["S.no ", "Coupon Code", "Discount", "Validity Date","Action"].map((item, index)=>
-                        <th key={index} className={`text-[16px] text-center py-2 leading-7 text-[#3E3E3E]`}>
-                            {item}
-                        </th>
+                        coupons?.data?.map((item:any, index:number)=>
+                            <React.Fragment key={index}>
+                                <tr>
+                                    <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{index + 1}</td>
+                                    <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{item?.couponCode}</td>
+                                    <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{item?.couponDiscount}%</td>
+                                    <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{item?.expireDate}</td>
+                                    <td className='h-[50px] text-center font-normal text-[14px] flex items-center justify-center gap-4 leading-5 text-[#636363]'>
+                                        <Trash onClick={()=>handleDelete(item?._id)} size={20} className='cursor-pointer' color='red' /> 
+                                    </td>
+                                </tr>
+                            </React.Fragment>
                         )
                     }
-                </tr>
-
-                {
-                    coupons?.data?.map((item:any, index:number)=>
-                        <React.Fragment key={index}>
-                            <div style={{marginTop: '8px'}}></div>
-                            <tr>
-                                <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{index + 1}</td>
-                                <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{item?.couponCode}</td>
-                                <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{item?.couponDiscount}%</td>
-                                <td className='h-[50px] text-center font-normal text-[14px] leading-5 text-[#636363]'>{item?.expireDate}</td>
-                                <td className='h-[50px] text-center font-normal text-[14px] flex items-center justify-center gap-4 leading-5 text-[#636363]'>
-                                    <Trash onClick={()=>handleDelete(item?._id)} size={20} className='cursor-pointer' color='red' /> 
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                    )
-                }
+                </tbody>
             </table>
             
             <Modal

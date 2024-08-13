@@ -73,57 +73,60 @@ const MealPlanClient = () => {
             </div>
             
             <table className="w-full rounded-[5px] rounded-table">
-                <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
+                <thead>
+                    <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
+                        {
+                            ["S.no ", "Name", "Order Type", "OrderDate", "Quantity", "Price", "Action"].map((item, index)=>
+                            <th key={index} className={`text-[18px] text-center py-2 leading-7 text-[#3E3E3E]`}>
+                                {item}
+                            </th>
+                            )
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
                     {
-                        ["S.no ", "Name", "Order Type", "OrderDate", "Quantity", "Price", "Action"].map((item, index)=>
-                        <th key={index} className={`text-[18px] text-center py-2 leading-7 text-[#3E3E3E]`}>
-                            {item}
-                        </th>
+                        [...Array(8)]?.map((item, index)=>
+                            <React.Fragment key={index}>
+                                <tr>
+                                    <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>{((page - 1) * itemsPerPage) + index + 1}</td>
+                                    <td className='h-[50px] flex items-center justify-center gap-3 text-[16px] leading-5 text-[#636363] font-normal'>
+                                        <Image
+                                            alt="Catering"
+                                            src={Catering}
+                                            width={48}
+                                            height={48}
+                                        />
+                                        Nadir
+                                    </td>
+                                    <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>Small Meal</td>
+                                    <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>2024-07-10</td>
+                                    <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>2024-07-12</td>
+                                    <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>$100</td>
+                                    <td className='h-[50px] text-center text-[16px] flex items-center justify-center gap-4 leading-5 text-[#636363] font-normal'>
+                                        <Select
+                                            style={{
+                                                width: "120px",
+                                                background: "transparent",
+                                                border: "none",
+                                                
+                                            }}
+                                            defaultValue={"Pending"}
+                                            value={item?.status}
+                                            onChange={()=>handleStatusChange(item?._id)}
+                                        >
+                                            <Select.Option value="pending">Pending</Select.Option>
+                                            <Select.Option value="process">Process</Select.Option>
+                                            <Select.Option value="delivered">Delivered</Select.Option>
+                                        </Select>
+                                        <IoIosInformationCircle onClick={()=>setOpen(true)} className='cursor-pointer' size={30} color='#735571' />
+                                    </td>
+                                </tr>
+                            </React.Fragment>
                         )
                     }
-                </tr>
-
-                {
-                    [...Array(8)]?.map((item, index)=>
-                        <React.Fragment key={index}>
-                            <div style={{marginTop: '8px'}}></div>
-                            <tr>
-                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>{((page - 1) * itemsPerPage) + index + 1}</td>
-                                <td className='h-[50px] flex items-center justify-center gap-3 text-[16px] leading-5 text-[#636363] font-normal'>
-                                    <Image
-                                        alt="Catering"
-                                        src={Catering}
-                                        width={48}
-                                        height={48}
-                                    />
-                                    Nadir
-                                </td>
-                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>Small Meal</td>
-                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>2024-07-10</td>
-                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>2024-07-12</td>
-                                <td className='h-[50px] text-center text-[16px] leading-5 text-[#636363] font-normal'>$100</td>
-                                <td className='h-[50px] text-center text-[16px] flex items-center justify-center gap-4 leading-5 text-[#636363] font-normal'>
-                                    <Select
-                                        style={{
-                                            width: "120px",
-                                            background: "transparent",
-                                            border: "none",
-                                            
-                                        }}
-                                        defaultValue={"Pending"}
-                                        value={item?.status}
-                                        onChange={()=>handleStatusChange(item?._id)}
-                                    >
-                                        <Select.Option value="pending">Pending</Select.Option>
-                                        <Select.Option value="process">Process</Select.Option>
-                                        <Select.Option value="delivered">Delivered</Select.Option>
-                                    </Select>
-                                    <IoIosInformationCircle onClick={()=>setOpen(true)} className='cursor-pointer' size={30} color='#735571' />
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                    )
-                }
+                </tbody>
             </table>
 
             <div className='my-6 flex items-center justify-center w-full'>

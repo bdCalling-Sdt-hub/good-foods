@@ -19,11 +19,11 @@ const Navbar: React.FC = () => {
     const [toggling, setToggling] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openFeedBackModal, setOpenFeedBackModal] = useState(false);
-    const {user, setUser} = useUser() ?? {};
+    const {user, setUser} = useUser();
     const [feedback, setFeedback] = useState("")
     const [putFeedback, {isLoading}] = usePutFeedbackMutation()
     
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    
     const item = [
         {
             label: "Home",
@@ -56,20 +56,24 @@ const Navbar: React.FC = () => {
     ]
 
     
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                if (!toggling) {
-                    setOpen(false);
-                }
-                setToggling(false);
+                setOpen(false);
             }
         };
-        document.addEventListener('click', handleClickOutside);
+
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [toggling]);
+    }, [open]); 
 
     const handleFeedback = async (user:any)=>{
         try {
@@ -168,11 +172,7 @@ const Navbar: React.FC = () => {
 
                     {/* user menu */}
                     <div 
-                        onClick={(e) => { 
-                            e.stopPropagation(); 
-                            setToggling(true);
-                            setOpen(prev => !prev); 
-                        }} 
+                        onClick={()=>setOpen(true)} 
                         className='w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full flex items-center justify-center'
                     >
                         {
@@ -193,8 +193,7 @@ const Navbar: React.FC = () => {
                     {
                         open &&
                     
-                        <div 
-                            // onClick={(e) => e.stopPropagation()}
+                        <div
                             ref={dropdownRef}
                             style={{
                                 boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
@@ -202,11 +201,11 @@ const Navbar: React.FC = () => {
                             className='absolute bg-white top-16 right-0 rounded w-[150px]'
                         >
                             <ul className='grid grid-cols-1 gap-1'>
-                                <li onClick={()=>(setOpen(false), setOpenFeedBackModal(true))} className='text-[#656565]  cursor-pointer transition-all duration-100 text-[14px] rounded-t-sm text-center  hover:bg-primary hover:text-white leading-6 font-normal py-2'>FeedBack</li>
-                                <Link href={"/profile"} >
+                                <li style={{display: user?._id ? "block" : "none"}} onClick={()=>(setOpen(false), setOpenFeedBackModal(true))} className='text-[#656565]  cursor-pointer transition-all duration-100 text-[14px] rounded-t-sm text-center  hover:bg-primary hover:text-white leading-6 font-normal py-2'>FeedBack</li>
+                                <Link href={"/profile"}  style={{display: user?._id ? "block" : "none"}}>
                                     <li onClick={()=>setOpen(false)} className='text-[#656565] transition-all duration-100 text-center hover:bg-primary hover:text-white text-[14px] leading-6 font-normal py-2'>Profile</li>
                                 </Link>
-                                <Link  href={"/transactions"}>
+                                <Link  href={"/transactions"} style={{display: user?.role === "ADMIN" ? "block" : "none"}}>
                                     <li onClick={()=>setOpen(false)} className='text-[#656565] transition-all duration-100 text-center hover:bg-primary hover:text-white text-[14px] leading-6 font-normal py-2'>Dashboard</li>
                                 </Link>
                                 <li onClick={handleLogout} className='text-[#656565] cursor-pointer transition-all duration-100 text-center rounded-b-sm hover:bg-primary hover:text-white  text-[14px] leading-6 font-normal py-2'>Log Out</li>

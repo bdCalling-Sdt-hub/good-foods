@@ -145,40 +145,43 @@ const MenuClient = () => {
             </div>
             
             <table className="w-full rounded-[5px] rounded-table">
-                <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
+                <thead>
+                    <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
+                        {
+                            ["S.no ", "Image", "Menu Name", "Meal Plan", "Action"].map((item, index)=>
+                            <th key={index} className={`text-[16px] py-2 ${index === 0 ? "pl-4" : "pl-0"} leading-7 text-[#3E3E3E]`}>
+                                {item}
+                            </th>
+                            )
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
                     {
-                        ["S.no ", "Image", "Menu Name", "Meal Plan", "Action"].map((item, index)=>
-                        <th key={index} className={`text-[16px] py-2 ${index === 0 ? "pl-4" : "pl-0"} leading-7 text-[#3E3E3E]`}>
-                            {item}
-                        </th>
+                        menus?.data?.map((item:any, index:number)=>
+                            <React.Fragment key={index}>
+                                <tr>
+                                    <td className='h-[50px] pl-4 text-[15px] leading-5 text-[#636363] font-normal'>{((page - 1) * itemsPerPage) + index + 1}</td>
+                                    <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>
+                                        <Image
+                                            alt="Catering"
+                                            src={`${imageUrl}${item?.image}`}
+                                            width={48}
+                                            height={48}
+                                        />
+                                    </td>
+                                    <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.menu}</td>
+                                    <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.mealPlan}</td>
+                                    <td className='h-[50px] flex items-center gap-3 text-[12px] leading-5 text-[#636363] font-normal'>
+                                        <CiEdit size={24} color='#735571' />
+                                        <MdDelete style={{cursor: "pointer"}} onClick={()=>handleDelete(item?._id)} size={24} color='#BF757B' />
+                                    </td>
+                                </tr>
+                            </React.Fragment>
                         )
                     }
-                </tr>
-
-                {
-                    menus?.data?.map((item:any, index:number)=>
-                        <React.Fragment key={index}>
-                            <div style={{marginTop: '8px'}}></div>
-                            <tr>
-                                <td className='h-[50px] pl-4 text-[15px] leading-5 text-[#636363] font-normal'>{((page - 1) * itemsPerPage) + index + 1}</td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>
-                                    <Image
-                                        alt="Catering"
-                                        src={`${imageUrl}${item?.image}`}
-                                        width={48}
-                                        height={48}
-                                    />
-                                </td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.menu}</td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.mealPlan}</td>
-                                <td className='h-[50px] flex items-center gap-3 text-[12px] leading-5 text-[#636363] font-normal'>
-                                    <CiEdit size={24} color='#735571' />
-                                    <MdDelete style={{cursor: "pointer"}} onClick={()=>handleDelete(item?._id)} size={24} color='#BF757B' />
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                    )
-                }
+                </tbody>
             </table>
 
             <div className='my-6 flex items-center justify-center w-full'>

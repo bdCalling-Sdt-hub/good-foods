@@ -17,6 +17,11 @@ const Modal:React.FC<IModalProps> = ({title, open, body, width, setOpen, form}) 
             form.resetFields();
         }
     }
+
+    if (!open) {
+        return null;
+    }
+    
     return (
         <AntModal
             centered

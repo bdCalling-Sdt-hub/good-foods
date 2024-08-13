@@ -86,3 +86,18 @@ body, html {
 .ant-select-selector:hover {
     border-color:#D6D6D6 !important;
 }
+
+/* ant design menu option */
+.ant-menu-item:hover {
+    background-color: #6ea963 !important;
+    color: #fff !important;
+}
+  
+.ant-menu-item-selected {
+    background-color: #6ea963 !important;
+    color: #fff !important;
+}
+
+.ant-menu .ant-menu-item .ant-menu-item-icon +span{
+    transition: none !important;
+}

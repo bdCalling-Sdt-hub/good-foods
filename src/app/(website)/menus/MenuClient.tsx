@@ -8,16 +8,18 @@ import { Pagination } from 'antd';
 import Link from 'next/link';
 import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
 import { imageUrl } from '@/redux/api/baseApi';
+import { useCart } from '@/provider/Cart';
 
 const MenuClient = () => {
     const [tab, setTab] = useState("Full Menus");
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState<string>("1");
+    const { dispatch } = useCart();
 
     useEffect(() => {
         const initialTab = new URLSearchParams(window.location.search).get('tab') || "Full Menus";
         setTab(initialTab);
         const initialPage = new URLSearchParams(window.location.search).get('page') || 1;
-        setPage(Number(initialPage))
+        setPage(initialPage.toString())
     }, []);
 
 
@@ -29,7 +31,7 @@ const MenuClient = () => {
     }
 
     const handlePageChange = (page: number) => {
-        setPage(Number(tab));
+        setPage(page.toString());
         const params = new URLSearchParams(window.location.search);
         params.set('page', String(page));
         window.history.pushState(null, "", `?${params.toString()}`);
@@ -48,6 +50,20 @@ const MenuClient = () => {
 
     const { data, isLoading } = useMenuQuery({page, tab});
     if (isLoading) return <div>Loading...</div>;
+
+    const addToCart = (e:any, value:any) => {
+        e.preventDefault();
+        e.stopPropagation()
+
+        const product = {
+            id: value?._id,
+            name: value?.name,
+            image: value?.image,
+            quantity: 1,
+            price: Number(value?.price)
+        };
+        dispatch({ type: 'ADD_ITEM', item: product });
+    };
 
     return (
         <div className='container mt-[100px]'>
@@ -104,10 +120,7 @@ const MenuClient = () => {
                                             <p className='font-semibold text-[16px] leading-5 text-[#735571] my-1'>${product?.price}</p>
                                             <button 
                                                 className='border-none font-medium text-[14px] leading-6 bg-primary text-white w-full h-10 rounded-lg'
-                                                onClick={(e)=>{
-                                                    e.stopPropagation();
-                                                    e.preventDefault()
-                                                }}
+                                                onClick={(e)=>addToCart(e, product)}
                                             >
                                                 Add to cart
                                             </button>
@@ -129,7 +142,7 @@ const MenuClient = () => {
             
             <div className='my-6 flex items-center justify-center w-full'>
                 <Pagination
-                    current={Number(page)}
+                    current={parseInt(page)}
                     showSizeChanger={false} 
                     total={data?.meta?.total}
                     onChange={handlePageChange} 

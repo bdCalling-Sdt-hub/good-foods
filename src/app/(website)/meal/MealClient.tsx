@@ -3,13 +3,10 @@ import Heading from '@/components/shared/Heading'
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa';
-import Product from "@/assets/foods.png"
 import Modal from '@/components/shared/Modal';
-import { Checkbox, DatePicker, Form, Input } from 'antd';
 import { useMenuQuery } from '@/redux/apiSlices/menuSlice';
 import { imageUrl } from '@/redux/api/baseApi';
-import { useMealOrderMutation } from '@/redux/apiSlices/orderSlice';
-import toast from 'react-hot-toast';
+import CheckoutModal from '@/components/shared/CheckoutModal';
 
 const MealClient = () => {
     const [open, setOpen] = useState(false)
@@ -17,12 +14,10 @@ const MealClient = () => {
     const [count, setCount] = useState(1);
     const [tabItem, setTabItem] = useState<number | null>(0);
     const [total, setTotal] = useState(0);
-    const [mealOrder, {isLoading: isOrderLoading}] =useMealOrderMutation();
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         const initialTab = new URLSearchParams(window.location.search).get('tab') || "Small Meal";
-        /* const initialTab2 = new URLSearchParams(window.location.search).get('index') || 0;
-        setTabItem(Number(initialTab2)) */
         setTab(initialTab);
     }, []);
 
@@ -52,177 +47,15 @@ const MealClient = () => {
 
     if (isLoading) return <div>Loading...</div>;
     const productList = products?.data?.map((item:any)=> ({product: item?._id}));
-    
-    
-    const handelOrder=async()=>{
-        const data = {
-            quantity: count,
-            mealPlanType: tab,
-            price: total,
-            totalItems: products?.data?.length,
-            products: productList
-        }
-        try {
-            await mealOrder(data).unwrap().then((result)=>{
-                if (result?.success) {
-                    toast.success(result.message);
-                    setOpen(false);
-                }
-            });
-            
-        } catch (error: any) {
-            toast.error(error.data.message || "An unexpected server error occurred");
-        }
+
+    const orderData = {
+        quantity: count,
+        mealPlanType: tab,
+        price: total,
+        totalItems: products?.data?.length,
+        products: productList,
+        deliveryCharge: 5,
     }
-
-
-    const body = (
-        <div className='grid grid-cols-12 rounded-lg'>
-            <div className='col-span-6 bg-[#103509] p-6'>
-                <Heading name='Shipping Information' style='font-bold text-[16px] leading-[24px] text-[#F6F6F6] mb-6' />
-                <div>
-                    <Form layout='vertical' className='grid grid-cols-12 gap-6'>
-                        <Form.Item
-                            name="name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please Enter Your Full Name"
-                                }
-                            ]}
-                            style={{marginBottom: 0}}
-                            className='col-span-6'
-                        >
-                            <Input
-                                placeholder='Enter Your Full Name'
-                                style={{
-                                    width: "100%",
-                                    height: 50,
-                                    boxShadow: "none",
-                                    outline: "none",
-                                    border: "none",
-                                    borderRadius: 24,
-                                    background: "#E9F2E8"
-                                }}
-                                className='poppins placeholder:text-[#838383] placeholder:text-[14px] placeholder:font-normal placeholder:leading-6'
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="phone"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please Enter Phone Number"
-                                }
-                            ]}
-                            style={{marginBottom: 0}}
-                            className='col-span-6'
-                        >
-                            <Input
-                                placeholder='Enter Your Phone Number'
-                                style={{
-                                    width: "100%",
-                                    height: 50,
-                                    boxShadow: "none",
-                                    outline: "none",
-                                    border: "none",
-                                    borderRadius: 24,
-                                    background: "#E9F2E8"
-                                }}
-                                className='poppins placeholder:text-[#838383] placeholder:text-[14px] placeholder:font-normal placeholder:leading-6'
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="location"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please Enter Location!"
-                                }
-                            ]}
-                            style={{marginBottom: 0}}
-                            className='col-span-12'
-                        >
-                            <Input
-                                placeholder='Enter Your Location'
-                                style={{
-                                    width: "100%",
-                                    height: 50,
-                                    boxShadow: "none",
-                                    outline: "none",
-                                    border: "none",
-                                    borderRadius: 24,
-                                    background: "#E9F2E8"
-                                }}
-                                className='poppins placeholder:text-[#838383] placeholder:text-[14px] placeholder:font-normal placeholder:leading-6'
-                            />
-                        </Form.Item>
-
-                        <div className='my-0 col-span-12 w-full h-[1px] bg-white ' />
-
-                        <Form.Item
-                            name="date"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please Pick Your Delivery Date"
-                                }
-                            ]}
-                            style={{marginBottom: 0}}
-                            className='col-span-12'
-                        >
-                            <DatePicker
-                                placeholder='Picker Your Delivery Date'
-                                style={{
-                                    width: "100%",
-                                    height: 50,
-                                    boxShadow: "none",
-                                    outline: "none",
-                                    border: "none",
-                                    borderRadius: 24,
-                                    background: "#E9F2E8"
-                                }}
-                                 className='poppins placeholder:text-[#838383] placeholder:text-[14px] placeholder:font-normal placeholder:leading-6'
-                            />
-                        </Form.Item>
-
-                        <Form.Item name={"account"} className='col-span-6' style={{marginBottom: 0}}>
-                            <Checkbox className="text-[#818181] text-[12px] leading-[24px] font-medium">Your Profile Address</Checkbox>
-                        </Form.Item>
-                    </Form>
-                </div>
-            </div>
-
-            <div className='col-span-6 bg-white p-6'>
-                <Heading name='PROCEED TO PAY' style='font-bold text-[16px] leading-[24px] text-[#26235B] mb-6' />
-
-                <div className='flex flex-col gap-4'>
-
-                    <div className='flex items-center justify-between'>
-                        <p className='text-[16px] leading-5 text-[#F52B2E] font-medium'>Price :</p>
-                        <p className='text-[16px] leading-5 text-[#F52B2E] font-bold'>$150.00</p>
-                    </div>
-
-                    <div className='flex items-center justify-between'>
-                        <p className='text-[16px] leading-5 text-[#565656] font-medium'>Delivery Charge :</p>
-                        <p className='text-[16px] leading-5 text-[#565656] font-bold'>$150.00</p>
-                    </div>
-                    <div className='w-full h-[1px] bg-[#BCBBCC] ' />
-
-                    <div className='flex items-center justify-between'>
-                        <p className='text-[16px] leading-5 text-[#3E3E3E] font-medium'>Total :</p>
-                        <p className='text-[16px] leading-5 text-[#3E3E3E] font-bold'>$150.00</p>
-                    </div>
-                    <Checkbox className="text-[#818181] text-[12px] leading-[24px] font-medium">I agree to <span className='text-[#F52B2E]'>Terms & Conditions, Privacy & Policy and Refund Policy</span></Checkbox>
-                        
-                    <button onClick={handelOrder} className='bg-primary text-white rounded-lg h-[48px] w-full font-normal text-[16px] leading-5'>Confirm Payment</button>
-                </div>
-
-            </div>
-        </div>
-    )
 
 
     return (
@@ -325,8 +158,8 @@ const MealClient = () => {
                 width={1000}
                 open={open}
                 setOpen={setOpen} 
-                title='Confirm Payment' 
-                body={body}
+                title='Confirm Checkout' 
+                body={<CheckoutModal type={"mealPlan"} modalOpen={modalOpen} setModalOpen={setModalOpen} setOpen={setOpen} orderData={orderData}/>}
             />
         </div>
     )

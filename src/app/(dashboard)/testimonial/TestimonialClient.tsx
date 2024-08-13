@@ -14,7 +14,6 @@ const TestimonialClient = () => {
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(1)
     const {data: reviews, refetch} = useFeedbackQuery(page);
-    console.log(reviews)
     const [publishFeedback] = usePublishFeedbackMutation();
     const [value, setValue] = useState<Record<string, string>>({})
 
@@ -78,62 +77,68 @@ const TestimonialClient = () => {
             </div>
             
             <table className="w-full rounded-[5px]">
-                <tr className="text-left w-full bg-[#FEE3B8]">
+                <thead>
+                    <tr className="text-left w-full bg-[#FEE3B8]">
+                        {
+                            ["S.no ", "User", "FeedBack", "Date", "Status", "Action"].map((item, index)=>
+                            <th key={index} className={`text-[16px] py-2 ${index === 0 ? "pl-4" : "pl-0"} leading-7 text-[#3E3E3E]`}>
+                                {item}
+                            </th>
+                            )
+                        }
+                    </tr>
+                </thead>
+                <tbody>
                     {
-                        ["S.no ", "User", "FeedBack", "Date", "Status", "Action"].map((item, index)=>
-                        <th key={index} className={`text-[16px] py-2 ${index === 0 ? "pl-4" : "pl-0"} leading-7 text-[#3E3E3E]`}>
-                            {item}
-                        </th>
+                        reviews?.data?.map((item:any, index:number)=>
+                            <React.Fragment key={index}>
+                                <tr>
+                                    <td className='h-[50px] pl-4 text-[15px] leading-5 text-[#636363] font-normal'>{index + 1}</td>
+                                    <td className='h-[50px] flex items-center gap-1 text-[15px] leading-5 text-[#636363] font-normal'>
+                                        {
+                                            item?.user?.profile
+                                            &&
+                                            <Image
+                                                alt="Catering"
+                                                src={ 
+                                                    item?.user?.profile?.startsWith("https") 
+                                                    ? 
+                                                    item?.user?.profile 
+                                                    : 
+                                                    `${imageUrl}${item?.user?.profile}` 
+                                                }
+                                                width={48}
+                                                height={48}
+                                            />
+                                        }
+                                        <p>{item?.user?.name}</p>
+                                    </td>
+                                    <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.feedback?.slice(0, 100)} {"..."}</td>
+                                    <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{moment(item?.createdAt).format("L")}</td>
+                                    <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>
+                                        <Select
+                                            style={{
+                                                width: 160,
+                                                height: 48,
+                                                background: "transparent",
+                                                border: "none",
+                                                
+                                            }}
+                                            value={item?.status}
+                                            onChange={()=>handleStatusChange(item?._id)}
+                                        >
+                                            <Select.Option value="published">Published</Select.Option>
+                                            <Select.Option value="Unpublished">UnPublished</Select.Option>
+                                        </Select>
+                                    </td>
+                                    <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>
+                                        <IoIosInformationCircle className='cursor-pointer' onClick={()=>(setOpen(true), setValue(item))} size={24} color='#735571' />
+                                    </td>
+                                </tr>
+                            </React.Fragment>
                         )
                     }
-                </tr>
-
-                {
-                    reviews?.data?.map((item:any, index:number)=>
-                        <React.Fragment key={index}>
-                            <div style={{marginTop: '8px'}}></div>
-                            <tr>
-                                <td className='h-[50px] pl-4 text-[15px] leading-5 text-[#636363] font-normal'>{index + 1}</td>
-                                <td className='h-[50px] flex items-center gap-1 text-[15px] leading-5 text-[#636363] font-normal'>
-                                    <Image
-                                        alt="Catering"
-                                        src={ 
-                                            item?.user?.profile?.startsWith("https") 
-                                            ? 
-                                            item?.user?.profile 
-                                            : 
-                                            `${imageUrl}${item?.user?.profile}` 
-                                        }
-                                        width={48}
-                                        height={48}
-                                    />
-                                    <p>{item?.user?.name}</p>
-                                </td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{item?.feedback?.slice(0, 100)} {"..."}</td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>{moment(item?.createdAt).format("L")}</td>
-                                <td className='h-[50px] text-[15px] leading-5 text-[#636363] font-normal'>
-                                    <Select
-                                        style={{
-                                            width: 160,
-                                            height: 48,
-                                            background: "transparent",
-                                            border: "none",
-                                            
-                                        }}
-                                        value={item?.status}
-                                        onChange={()=>handleStatusChange(item?._id)}
-                                    >
-                                        <Select.Option value="published">Published</Select.Option>
-                                        <Select.Option value="Unpublished">UnPublished</Select.Option>
-                                    </Select>
-                                </td>
-                                <td className='h-[50px] text-[12px] leading-5 text-[#636363] font-normal'>
-                                    <IoIosInformationCircle className='cursor-pointer' onClick={()=>(setOpen(true), setValue(item))} size={24} color='#735571' />
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                    )
-                }
+                </tbody>
             </table>
 
             <div className='my-6 flex items-center justify-center w-full'>
