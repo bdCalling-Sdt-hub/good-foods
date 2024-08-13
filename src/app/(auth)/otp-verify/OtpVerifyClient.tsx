@@ -3,7 +3,7 @@ import Heading from '@/components/shared/Heading';
 import { Button, Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEmailVerifyMutation } from '@/redux/apiSlices/authSlice';
 import toast from 'react-hot-toast';
 
@@ -13,13 +13,15 @@ const OtpVerifyClient = () => {
     const router = useRouter();
     form.setFieldsValue(undefined);
     const [ emailVerify, {isLoading} ] = useEmailVerifyMutation();
-    
+    const emailParams = useSearchParams()
+    const email = emailParams.get('email')
+    const type = emailParams.get('type')
 
     const handleSubmit= async(values:any)=>{
 
-        /* const otpValue = {
+        const otpValue = {
             email: email,
-            oneTimePassword: values.otp
+            oneTimeCode: Number(values?.otp)
         }
 
         try {
@@ -27,12 +29,17 @@ const OtpVerifyClient = () => {
                 if (result?.success) {
                     form.resetFields()
                     toast.success(result.message);
-                    router.push('/login');
+                    if(type === "forgot"){
+                        router.push(`/reset-password?token=${result?.data}`);
+                    }else{
+                        router.push('/login');
+                    }
                 }
             });
         } catch (error: any) {
+            console.log(error)
             toast.error(error.data.message || "An unexpected server error occurred");
-        } */
+        }
 
     }
     
@@ -41,7 +48,7 @@ const OtpVerifyClient = () => {
             
             <Heading name='Verification code' style='font-semibold text-[24px] leading-[32px] text-[#333333] text-center mb-6' />
             <p className="text-[#929394] poppins text-[16px] leading-[25px] font-normal ">
-                We sent a reset link to <span className="text-secondary">contact@dscode...com</span>  enter 5 digit code that
+                We sent a reset link to <span className="text-secondary">{email}</span>  enter 5 digit code that
                 mentioned in the email
             </p>
 
@@ -69,7 +76,7 @@ const OtpVerifyClient = () => {
                     }}
                 >
                     <Input.OTP
-                        length={5}
+                        length={4}
                         style={{
                             width: "100%",
                             height: 50,

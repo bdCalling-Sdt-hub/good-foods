@@ -20,7 +20,7 @@ const ForgotPasswordClient = () => {
                 if (result?.success) {
                     form.resetFields()
                     toast.success(result.message);
-                    router.push('/otp-verify');
+                    router.push(`/otp-verify?email=${values?.email}&type=forgot`);
                 }
             });
         } catch (error: any) {

@@ -20,6 +20,7 @@ const CartPopUp:React.FC<ICartProps> = ({setOpen}) => {
     const [count, setCount] = useState(1);
 
     const { state: { items }, dispatch } = useCart();
+    console.log(items)
     const total = items?.reduce((acc, item) => acc + Number(item.quantity) * item.price, 0);
 
     const products = items?.map((item:any)=> {
@@ -63,7 +64,7 @@ const CartPopUp:React.FC<ICartProps> = ({setOpen}) => {
                                                                     src={`${imageUrl}${item?.image}`}
                                                                     width={60}
                                                                     height={70}
-                                                                    style={{borderRadius: 6}}
+                                                                    style={{borderRadius: 6, width: "auto", height: "auto"}}
                                                                 />
 
                                                                 <div>

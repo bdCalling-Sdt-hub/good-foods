@@ -15,19 +15,19 @@ const RegisterClient = () => {
 
 
     const handleSubmit = async (values: any) => {
-        router.push('/');
-        /* try {
+        try {
             await register({ ...values }).unwrap().then((result)=>{
                 if (result?.success) {
+                    console.log(result)
                     form.resetFields()
                     toast.success(result.message);
-                    router.push('/otp-verify');
+                    router.push(`/otp-verify?email=${values?.email}`);
                 }
             });
             
         } catch (error: any) {
             toast.error(error.data.message || "An unexpected server error occurred");
-        } */
+        }
     };
     
     return (

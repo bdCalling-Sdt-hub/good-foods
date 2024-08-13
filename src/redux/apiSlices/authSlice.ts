@@ -39,11 +39,14 @@ const authSlice = api.injectEndpoints({
             }
         }),
         resetPassword: builder.mutation({
-            query: (data) => {
+            query: ({token, value}) => {
                 return{
                     method: "POST",
                     url: "/auth/reset-password",
-                    body: data
+                    body: value,
+                    headers:{
+                        Authorization: `${token}`
+                    }
                 }
             }
         }),

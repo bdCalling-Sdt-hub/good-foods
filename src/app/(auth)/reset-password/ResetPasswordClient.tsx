@@ -2,7 +2,7 @@
 import Heading from '@/components/shared/Heading';
 import { useResetPasswordMutation } from '@/redux/apiSlices/authSlice';
 import { Button, Form, Input } from 'antd';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react'
 import toast from 'react-hot-toast';
 
@@ -11,13 +11,13 @@ const ResetPasswordClient = () => {
     const router = useRouter();
     form.setFieldsValue(undefined);
     const [resetPassword, {isLoading} ] = useResetPasswordMutation()
+    const tokenParams = useSearchParams()
+    const token = tokenParams.get('token')
 
 
     const handleSubmit=async(values:any)=>{
-        console.log(values)
-    
         try {
-            await resetPassword(values).unwrap().then((result)=>{
+            await resetPassword( {token: token, value: values}).unwrap().then((result)=>{
                 if (result?.success) {
                     form.resetFields()
                     toast.success(result.message);
@@ -41,7 +41,7 @@ const ResetPasswordClient = () => {
             <Form onFinish={handleSubmit} form={form} layout='vertical'>
                 
                 <Form.Item
-                    name="password"
+                    name="newPassword"
                     label={<p className='font-medium text-[16px] leading-6 text-[#636363]'>Password</p>}
                     rules={[
                         {
@@ -62,11 +62,13 @@ const ResetPasswordClient = () => {
                             borderRadius: 24,
                             background: "#FEFEFE"
                         }}
+                        id='password'
                     />
                 </Form.Item>
 
                 <Form.Item
-                    name="confirm_password"
+
+                    name="confirmPassword"
                     label={<p className='font-medium text-[16px] leading-6 text-[#636363]'>Confirm Password</p>}
                     rules={[
                         {
@@ -87,6 +89,7 @@ const ResetPasswordClient = () => {
                             borderRadius: 24,
                             background: "#FEFEFE"
                         }}
+                        id='password'
                     />
                 </Form.Item>
 
