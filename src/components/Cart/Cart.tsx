@@ -31,7 +31,7 @@ const Cart = () => {
 
     
     return (
-        <div ref={cartRef}>
+        <div>
             {
                 open &&
                 <CartPopUp setOpen={setOpen} open={open} />
