@@ -174,6 +174,7 @@ const Navbar: React.FC = () => {
                     <div 
                         onClick={()=>setOpen(true)} 
                         className='w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full flex items-center justify-center'
+                        style={{ display: user?._id ? "none" : "block" }}
                     >
                         {
                             user?._id
