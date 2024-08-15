@@ -119,6 +119,7 @@ const Navbar: React.FC = () => {
     const handleLogout=()=>{
         setUser(null);
         setOpen(false)
+        localStorage.removeItem("token")
     }
     
     return (
