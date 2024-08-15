@@ -152,11 +152,11 @@ const Navbar: React.FC = () => {
                 </div>
 
                 <div className='flex items-center gap-6'>
-                    <div className={` ${user?._id ? "none" : "flex"} items-center gap-6`}>
+                    <div className={` ${user?._id ? "hidden" : "flex"} items-center gap-6`}>
                         <Link 
                             href={"/login"}
                             className=' font-normal w-[104px] h-10 rounded-lg border border-primary text-primary hidden  lg:flex items-center justify-center text-[16px] leading-6'
-                        >
+                        > 
                             Log in
                         </Link>
 
@@ -173,8 +173,7 @@ const Navbar: React.FC = () => {
                     {/* user menu */}
                     <div 
                         onClick={()=>setOpen(true)} 
-                        className='w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full flex items-center justify-center'
-                        style={{ display: user?._id ? "none" : "block" }}
+                        className={`w-10 bg-[#F1F1F1] h-10 cursor-pointer rounded-full ${user?._id ? "flex" : "hidden"} items-center justify-center`}
                     >
                         {
                             user?._id

@@ -18,7 +18,6 @@ const RegisterClient = () => {
         try {
             await register({ ...values }).unwrap().then((result)=>{
                 if (result?.success) {
-                    console.log(result)
                     form.resetFields()
                     toast.success(result.message);
                     router.push(`/otp-verify?email=${values?.email}`);
@@ -161,7 +160,7 @@ const RegisterClient = () => {
                 </Form.Item>
 
                 <Form.Item
-                    name="password"
+                    name="passwords"
                     label={<p className='font-medium text-[16px] leading-6 text-[#636363]'>Confirm Password</p>}
                     rules={[
                         {
