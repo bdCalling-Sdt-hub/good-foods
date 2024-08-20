@@ -19,7 +19,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'api.sgf-sa',
+                hostname: 'api.sgf-sa.com',
                 pathname: '**',
             },
             {
